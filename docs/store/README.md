@@ -31,12 +31,11 @@ Marca cada casilla al completarla.
 - [x] Versión mínima: **Windows 11** (`MinVersion 10.0.22000.0`), lo único probado.
 - [x] Las fichas solo prometen **Windows App (Windows 365 / Cloud PC)**. Si se prueba `mstsc` a pantalla completa, se puede añadir «Conexión a Escritorio remoto».
 - [ ] Alojar [privacy-policy.md](privacy-policy.md) en una URL pública y ponerla en `App.PrivacyPolicyUrl` ([App.xaml.cs](../../src/ScreenPivot.App/App.xaml.cs)). Así aparece el enlace en *Ajustes → Privacidad*; mientras esté vacía, el enlace queda oculto.
-- [ ] Compilar los paquetes de Store, uno por arquitectura:
+- [x] Compilar los paquetes de Store: lo hace el workflow **Release** al fusionar en `main` y los sube a Partner Center ([docs/ci-cd.md](../ci-cd.md)). En local:
   ```
-  dotnet build src\ScreenPivot.App -c Release -p:Packaged=true -p:Platform=x64 -r win-x64
-  dotnet build src\ScreenPivot.App -c Release -p:Packaged=true -p:Platform=ARM64 -r win-arm64
+  powershell -ExecutionPolicy Bypass -File toolsuild-packages.ps1 -Channel Store
   ```
-  Resultado: `src\ScreenPivot.App\AppPackages\ScreenPivot.App_<versión>_{x64,arm64}_Test\*.msix`, sin firmar (la Store firma al publicar). La dependencia `Microsoft.WindowsAppRuntime.1.8` la instala la Store sola.
+  Resultado en `artifacts\packages\store`: los `.msix` x64 y ARM64 sin firmar (la Store firma al publicar) y `ScreenPivot_<versión>.msixupload` con los dos. La dependencia `Microsoft.WindowsAppRuntime.1.8` la instala la Store sola.
 - [ ] **Windows App Certification Kit** (consola de administrador; ya está instalado con el SDK):
   ```
   "C:\Program Files (x86)\Windows Kits\10\App Certification Kit\appcert.exe" reset

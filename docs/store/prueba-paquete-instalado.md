@@ -5,10 +5,11 @@ Objetivo: comprobar lo que solo funciona con la app **empaquetada (MSIX)**, que 
 ## 1. Preparar el paquete (equipo de desarrollo)
 
 ```
-dotnet build src\ScreenPivot.App -c Release -p:Packaged=true -p:Platform=x64 -r win-x64
-dotnet build src\ScreenPivot.App -c Release -p:Packaged=true -p:Platform=ARM64 -r win-arm64
+powershell -ExecutionPolicy Bypass -File toolsuild-packages.ps1 -Channel Store
 powershell -ExecutionPolicy Bypass -File tools\make-test-package.ps1
 ```
+
+O, sin compilar nada: el zip del último pre-release `dev-…` en GitHub (*Releases*), que instala **ScreenPivot Dev** junto a la versión de la Store ([docs/ci-cd.md](../ci-cd.md)).
 
 Copia la carpeta `artifacts\test-package` a la máquina de prueba (USB, OneDrive…). Contiene:
 

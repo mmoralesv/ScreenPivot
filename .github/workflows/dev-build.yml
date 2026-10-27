@@ -1,0 +1,75 @@
+# Test build for every merge into develop: "ScreenPivot Dev" packages (separate identity, installs next to the Store
+# app), signed with a throwaway certificate, published as a GitHub pre-release with install/uninstall scripts.
+name: Dev build
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dev-build
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  package:
+    needs: ci
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build Dev packages (x64 + ARM64)
+        id: build
+        shell: powershell
+        run: ./tools/build-packages.ps1 -Channel Dev -Build ${{ github.run_number }}
+
+      - name: Sign test copies
+        shell: powershell
+        run: ./tools/make-test-package.ps1 -Packages artifacts/packages/dev -Out artifacts/ScreenPivot-Dev
+
+      - name: Zip
+        shell: pwsh
+        run: Compress-Archive -Path artifacts/ScreenPivot-Dev/* -DestinationPath "artifacts/ScreenPivot-Dev-${{ steps.build.outputs.version }}.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ScreenPivot-Dev-${{ steps.build.outputs.version }}
+          path: artifacts/ScreenPivot-Dev
+          retention-days: 30
+
+      - name: Pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.build.outputs.version }}
+        shell: pwsh
+        run: |
+          $tag = "dev-$env:VERSION"
+          $log = git log -1 --format='%s (%h)'
+          $notes = @"
+          Build de prueba desde ``develop``: $log
+
+          Se instala como **ScreenPivot Dev**, junto a la versión de la Store (alias ``screenpivot-dev``).
+          Descomprime el zip y, en PowerShell como administrador: ``powershell -ExecutionPolicy Bypass -File .\Install-ScreenPivotTest.ps1``.
+          Para quitarla: ``Uninstall-ScreenPivotTest.ps1`` (también borra el certificado de prueba).
+          "@
+          gh release create $tag "artifacts/ScreenPivot-Dev-$env:VERSION.zip" --target $env:GITHUB_SHA --prerelease --title "ScreenPivot Dev $env:VERSION" --notes $notes
+
+      - name: Keep the last 10 dev pre-releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          gh release list --limit 100 --json tagName,isPrerelease,createdAt |
+            ConvertFrom-Json | Where-Object { $_.isPrerelease -and $_.tagName -like 'dev-*' } |
+            Sort-Object createdAt -Descending | Select-Object -Skip 10 |
+            ForEach-Object { gh release delete $_.tagName --yes --cleanup-tag }
