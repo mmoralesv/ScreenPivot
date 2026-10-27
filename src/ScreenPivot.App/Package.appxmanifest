@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap3 uap5 desktop rescap">
+
+  <!-- Name and Publisher are placeholders; Partner Center provides the real values when the app is reserved. -->
+  <Identity Name="ScreenPivot" Publisher="CN=ScreenPivotDev" Version="0.1.0.0" />
+
+  <Properties>
+    <DisplayName>ScreenPivot</DisplayName>
+    <PublisherDisplayName>ScreenPivot</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="ScreenPivot"
+        Description="Avisos y resumen de las apps del equipo mientras trabajas en un Cloud PC a pantalla completa."
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <uap5:Extension Category="windows.startupTask" Executable="ScreenPivot.exe" EntryPoint="Windows.FullTrustApplication">
+          <uap5:StartupTask TaskId="ScreenPivotStartup" Enabled="false" DisplayName="ScreenPivot" />
+        </uap5:Extension>
+        <!-- Lets testers run "screenpivot" with the demo argument from a terminal (sample data, see docs/store). -->
+        <uap3:Extension Category="windows.appExecutionAlias" Executable="ScreenPivot.exe" EntryPoint="Windows.FullTrustApplication">
+          <uap3:AppExecutionAlias>
+            <desktop:ExecutionAlias Alias="screenpivot.exe" />
+          </uap3:AppExecutionAlias>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+    <uap3:Capability Name="userNotificationListener" />
+  </Capabilities>
+</Package>

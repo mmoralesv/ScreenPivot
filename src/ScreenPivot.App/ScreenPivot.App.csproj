@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <RootNamespace>ScreenPivot.App</RootNamespace>
+    <AssemblyName>ScreenPivot</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\ScreenPivot.ico</ApplicationIcon>
+    <Platforms>x64;ARM64</Platforms>
+    <!-- Same output folder whether built from the solution (x64) or the project alone (AnyCPU). -->
+    <Platform Condition="'$(Platform)' == '' or '$(Platform)' == 'AnyCPU'">x64</Platform>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <UseWinUI>true</UseWinUI>
+    <!-- The UI is Spanish; the MSIX declares this language and the Store listing must match it. -->
+    <DefaultLanguage>es-ES</DefaultLanguage>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Program.cs owns Main for single-instance redirection. -->
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+  </PropertyGroup>
+
+  <!--
+    Dev builds run unpackaged and self-contained (no runtime install, no certificate).
+    Store builds: dotnet build -p:Packaged=true (see README).
+  -->
+  <PropertyGroup Condition="'$(Packaged)' != 'true'">
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Packaged)' == 'true'">
+    <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxBundle>Never</AppxBundle>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Manifest Include="$(ApplicationManifest)" />
+    <Content Include="Assets\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260921001" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScreenPivot.Core\ScreenPivot.Core.csproj" />
+  </ItemGroup>
+
+</Project>
