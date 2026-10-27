@@ -76,7 +76,7 @@ public sealed class EventHub
         var decision = PriorityEngine.Evaluate(raw, settings);
         if (decision.Priority == Priority.Ignore)
         {
-            DiagnosticsLog.Write($"ignored {raw.Origin} app='{raw.App}' ({LogReason(decision.Reason)})");
+            DiagnosticsLog.Write($"ignored {raw.Origin} app='{raw.App}' ({LogReason(decision.Kind, decision.Detail)})");
             return null;
         }
 
@@ -91,20 +91,23 @@ public sealed class EventHub
             accepted = raw with
             {
                 Priority = decision.Priority,
-                Reason = decision.Reason,
+                ReasonKind = decision.Kind,
+                ReasonDetail = decision.Detail,
                 ReceivedWhileRemote = _remoteSince is not null && !settings.Paused,
             };
         }
 
         _store.Add(accepted);
-        DiagnosticsLog.Write($"accepted {accepted.Origin} app='{accepted.App}' priority={accepted.Priority} remote={accepted.ReceivedWhileRemote} ({LogReason(accepted.Reason)})");
+        DiagnosticsLog.Write($"accepted {accepted.Origin} app='{accepted.App}' priority={accepted.Priority} remote={accepted.ReceivedWhileRemote} ({LogReason(accepted.ReasonKind, accepted.ReasonDetail)})");
         Accepted?.Invoke(this, accepted);
         return accepted;
     }
 
-    /// <summary>VIP reasons carry a person's name; the log keeps only that it was a VIP match.</summary>
-    internal static string LogReason(string reason) =>
-        reason.StartsWith("VIP:", StringComparison.Ordinal) ? "VIP" : reason;
+    /// <summary>
+    /// Language-neutral reason for the log. VIP matches carry a person's name, so the log keeps only the kind.
+    /// </summary>
+    internal static string LogReason(ReasonKind kind, string detail) =>
+        kind == ReasonKind.Vip || detail.Length == 0 ? kind.ToString() : $"{kind}: {detail}";
 
     private bool IsDuplicate(HostEvent e)
     {

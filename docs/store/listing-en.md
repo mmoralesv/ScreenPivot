@@ -1,6 +1,6 @@
 # Microsoft Store listing — English (en-US)
 
-> **Optional.** The package declares only Spanish (`ES-ES`) and the UI is Spanish. Add this listing only if you want to reach English-speaking users before localizing the app, and keep the "Spanish interface" note at the end of the description. Limits in parentheses are Partner Center's.
+The package declares **ES-ES and EN-US** and the app is fully translated, so this listing matches an English UI. Limits in parentheses are Partner Center's.
 
 ## Product name
 
@@ -40,7 +40,7 @@ PRIVATE BY DESIGN
 
 Works with Windows App (Windows 365 / Cloud PC). ScreenPivot is an independent app and is not affiliated with Microsoft.
 
-The app interface is currently in Spanish.
+Available in English and Spanish; it follows your Windows language or can be chosen in Settings.
 
 ## What's new in this version (max. 1,500 characters)
 

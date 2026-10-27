@@ -40,78 +40,87 @@
                 </InfoBar>
                 <TextBlock x:Name="DetectionText" Style="{StaticResource Hint}" />
 
-                <TextBlock Text="General" Style="{StaticResource SectionTitle}" />
+                <TextBlock x:Uid="Settings_GeneralSection" Style="{StaticResource SectionTitle}" />
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Pausar avisos" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="PausedToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Pausar avisos" />
+                    <TextBlock x:Uid="Settings_Paused" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="PausedToggle" x:Uid="Settings_PausedToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Iniciar con Windows" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="StartupToggle" Grid.Column="1" Toggled="OnStartupToggled" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Iniciar con Windows" />
+                    <TextBlock x:Uid="Settings_Startup" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="StartupToggle" x:Uid="Settings_StartupToggle" Grid.Column="1" Toggled="OnStartupToggled" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Abrir el resumen al salir del Cloud PC" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="DigestToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Abrir el resumen al salir del Cloud PC" />
+                    <TextBlock x:Uid="Settings_DigestOnReturn" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="DigestToggle" x:Uid="Settings_DigestOnReturnToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Contar el Cloud PC maximizado" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="MaximizedToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Contar el Cloud PC maximizado" />
+                    <TextBlock x:Uid="Settings_Maximized" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="MaximizedToggle" x:Uid="Settings_MaximizedToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
-                <TextBlock Style="{StaticResource Hint}" Text="Además de a pantalla completa, cuando la sesión está maximizada y se ve la barra de tareas del equipo." />
+                <TextBlock x:Uid="Settings_MaximizedHint" Style="{StaticResource Hint}" />
 
-                <TextBlock Text="Panel lateral" Style="{StaticResource SectionTitle}" />
-                <ComboBox x:Name="PanelEdgeBox" Header="Borde" HorizontalAlignment="Stretch">
-                    <x:String>Izquierda</x:String>
-                    <x:String>Derecha</x:String>
-                    <x:String>Arriba</x:String>
-                    <x:String>Abajo</x:String>
+                <TextBlock x:Uid="Settings_LanguageSection" Style="{StaticResource SectionTitle}" />
+                <ComboBox x:Name="LanguageBox" x:Uid="Settings_Language" HorizontalAlignment="Stretch">
+                    <ComboBoxItem x:Uid="Settings_LanguageAuto" Tag="" />
+                    <ComboBoxItem Content="Español" Tag="es-ES" />
+                    <ComboBoxItem Content="English" Tag="en-US" />
                 </ComboBox>
-                <ComboBox x:Name="PanelMonitorBox" Header="Monitor" HorizontalAlignment="Stretch" />
+                <StackPanel x:Name="RestartPanel" Orientation="Horizontal" Spacing="10" Visibility="Collapsed">
+                    <TextBlock x:Uid="Settings_LanguageRestartHint" Style="{StaticResource Hint}" VerticalAlignment="Center" />
+                    <Button x:Uid="Settings_Restart" Click="OnRestart" />
+                </StackPanel>
 
-                <TextBlock Text="Avisos sobre el Cloud PC" Style="{StaticResource SectionTitle}" />
-                <ComboBox x:Name="CornerBox" Header="Esquina del banner" HorizontalAlignment="Stretch">
-                    <x:String>Arriba a la izquierda</x:String>
-                    <x:String>Arriba a la derecha</x:String>
-                    <x:String>Abajo a la izquierda</x:String>
-                    <x:String>Abajo a la derecha</x:String>
+                <TextBlock x:Uid="Settings_PanelSection" Style="{StaticResource SectionTitle}" />
+                <ComboBox x:Name="PanelEdgeBox" x:Uid="Settings_PanelEdge" HorizontalAlignment="Stretch">
+                    <ComboBoxItem x:Uid="Settings_EdgeLeft" />
+                    <ComboBoxItem x:Uid="Settings_EdgeRight" />
+                    <ComboBoxItem x:Uid="Settings_EdgeTop" />
+                    <ComboBoxItem x:Uid="Settings_EdgeBottom" />
                 </ComboBox>
-                <ComboBox x:Name="MonitorBox" Header="Monitor del banner" HorizontalAlignment="Stretch" />
-                <NumberBox x:Name="BannerSecondsBox" Header="Segundos del aviso alto" Minimum="2" Maximum="60" SpinButtonPlacementMode="Compact" HorizontalAlignment="Left" />
-                <ComboBox x:Name="SwitchModeBox" Header="Al abrir una app desde un aviso" HorizontalAlignment="Stretch">
-                    <x:String>Traerla encima del Cloud PC</x:String>
-                    <x:String>Minimizar el Cloud PC</x:String>
+                <ComboBox x:Name="PanelMonitorBox" x:Uid="Settings_PanelMonitor" HorizontalAlignment="Stretch" />
+
+                <TextBlock x:Uid="Settings_AlertsSection" Style="{StaticResource SectionTitle}" />
+                <ComboBox x:Name="CornerBox" x:Uid="Settings_Corner" HorizontalAlignment="Stretch">
+                    <ComboBoxItem x:Uid="Settings_CornerTopLeft" />
+                    <ComboBoxItem x:Uid="Settings_CornerTopRight" />
+                    <ComboBoxItem x:Uid="Settings_CornerBottomLeft" />
+                    <ComboBoxItem x:Uid="Settings_CornerBottomRight" />
+                </ComboBox>
+                <ComboBox x:Name="MonitorBox" x:Uid="Settings_BannerMonitor" HorizontalAlignment="Stretch" />
+                <NumberBox x:Name="BannerSecondsBox" x:Uid="Settings_BannerSeconds" Minimum="2" Maximum="60" SpinButtonPlacementMode="Compact" HorizontalAlignment="Left" />
+                <ComboBox x:Name="SwitchModeBox" x:Uid="Settings_SwitchMode" HorizontalAlignment="Stretch">
+                    <ComboBoxItem x:Uid="Settings_SwitchBringToFront" />
+                    <ComboBoxItem x:Uid="Settings_SwitchMinimize" />
                 </ComboBox>
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Mostrar siempre «Ir al equipo»" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="QuickAccessToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Mostrar siempre «Ir al equipo»" />
+                    <TextBlock x:Uid="Settings_QuickAccess" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="QuickAccessToggle" x:Uid="Settings_QuickAccessToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
-                <Button Content="Probar banner en 5 s" Click="OnTestBanner" />
+                <Button x:Uid="Settings_TestBanner" Click="OnTestBanner" />
                 <TextBlock x:Name="TestHint" Style="{StaticResource Hint}" />
 
-                <TextBlock Text="Sonidos" Style="{StaticResource SectionTitle}" />
-                <TextBlock Style="{StaticResource Hint}"
-                           Text="Solo para avisos que llegan mientras estás en el Cloud PC. Los sonidos de Windows siguen tu esquema de sonido." />
+                <TextBlock x:Uid="Settings_SoundsSection" Style="{StaticResource SectionTitle}" />
+                <TextBlock x:Uid="Settings_SoundsHint" Style="{StaticResource Hint}" />
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Reproducir sonidos" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="SoundToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Reproducir sonidos" />
+                    <TextBlock x:Uid="Settings_Sound" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="SoundToggle" x:Uid="Settings_SoundToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
                 <StackPanel x:Name="SoundRows" Spacing="8" />
                 <TextBlock x:Name="SoundStatus" Style="{StaticResource Hint}" />
 
-                <TextBlock Text="Prioridades" Style="{StaticResource SectionTitle}" />
-                <TextBlock Style="{StaticResource Hint}"
-                           Text="Orden: app silenciada → remitente VIP → palabra clave crítica → la regla de mayor prioridad → Normal. Una entrada por línea." />
-                <TextBox x:Name="VipBox" Header="Remitentes VIP (críticos)" AcceptsReturn="True" MinHeight="72" TextWrapping="Wrap" />
-                <TextBox x:Name="KeywordsBox" Header="Palabras clave críticas" AcceptsReturn="True" MinHeight="72" TextWrapping="Wrap" />
-                <TextBox x:Name="MutedBox" Header="Apps silenciadas" AcceptsReturn="True" MinHeight="72" TextWrapping="Wrap" />
+                <TextBlock x:Uid="Settings_PrioritiesSection" Style="{StaticResource SectionTitle}" />
+                <TextBlock x:Uid="Settings_PrioritiesHint" Style="{StaticResource Hint}" />
+                <TextBox x:Name="VipBox" x:Uid="Settings_Vip" AcceptsReturn="True" MinHeight="72" TextWrapping="Wrap" />
+                <TextBox x:Name="KeywordsBox" x:Uid="Settings_Keywords" AcceptsReturn="True" MinHeight="72" TextWrapping="Wrap" />
+                <TextBox x:Name="MutedBox" x:Uid="Settings_Muted" AcceptsReturn="True" MinHeight="72" TextWrapping="Wrap" />
 
-                <TextBlock Text="Reglas por app" Style="{StaticResource SectionTitle}" />
+                <TextBlock x:Uid="Settings_RulesSection" Style="{StaticResource SectionTitle}" />
                 <ItemsControl x:Name="RulesList">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:RuleRow">
@@ -124,10 +133,10 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <CheckBox IsChecked="{x:Bind Enabled, Mode=TwoWay}" MinWidth="0" VerticalAlignment="Center"
-                                                  AutomationProperties.Name="Activa" ToolTipService.ToolTip="Activa" />
-                                        <TextBox Grid.Column="1" PlaceholderText="Nombre" Text="{x:Bind Name, Mode=TwoWay}" />
+                                                  x:Uid="Settings_RuleEnabled" />
+                                        <TextBox Grid.Column="1" x:Uid="Settings_RuleName" Text="{x:Bind Name, Mode=TwoWay}" />
                                         <Button Grid.Column="2" Click="OnRemoveRule" Tag="{x:Bind}" Padding="8"
-                                                ToolTipService.ToolTip="Quitar regla" AutomationProperties.Name="Quitar regla">
+                                                x:Uid="Settings_RuleRemove">
                                             <FontIcon Glyph="&#xE74D;" FontSize="14" />
                                         </Button>
                                     </Grid>
@@ -136,29 +145,28 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBox PlaceholderText="App (cualquiera)" Text="{x:Bind App, Mode=TwoWay}" />
+                                        <TextBox x:Uid="Settings_RuleApp" Text="{x:Bind App, Mode=TwoWay}" />
                                         <ComboBox Grid.Column="1" ItemsSource="{x:Bind local:RuleRow.PriorityNames}" SelectedIndex="{x:Bind PriorityIndex, Mode=TwoWay}" MinWidth="110" />
                                     </Grid>
-                                    <TextBox PlaceholderText="Palabras, separadas por coma (cualquier texto)" Text="{x:Bind Keywords, Mode=TwoWay}" />
+                                    <TextBox x:Uid="Settings_RuleKeywords" Text="{x:Bind Keywords, Mode=TwoWay}" />
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Button Content="Agregar regla" Click="OnAddRule" />
+                <Button x:Uid="Settings_AddRule" Click="OnAddRule" />
 
-                <TextBlock Text="Apps sin notificaciones" Style="{StaticResource SectionTitle}" />
-                <TextBlock Style="{StaticResource Hint}"
-                           Text="Solo mientras estás en el Cloud PC, y nunca de la ventana que tienes delante. Si el patrón tiene un primer grupo numérico, por ejemplo ^\((\d+)\), avisa cuando ese número sube; si no, cuando el texto aparece o cambia." />
+                <TextBlock x:Uid="Settings_NoToastSection" Style="{StaticResource SectionTitle}" />
+                <TextBlock x:Uid="Settings_NoToastHint" Style="{StaticResource Hint}" />
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Parpadeos en la barra de tareas" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="FlashToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Parpadeos en la barra de tareas" />
+                    <TextBlock x:Uid="Settings_Flashes" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="FlashToggle" x:Uid="Settings_FlashesToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
                 <Grid ColumnSpacing="8">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="Cambios en el título de las ventanas" TextWrapping="Wrap" VerticalAlignment="Center" />
-                    <ToggleSwitch x:Name="TitlesToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" AutomationProperties.Name="Cambios en el título de las ventanas" />
+                    <TextBlock x:Uid="Settings_Titles" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="TitlesToggle" x:Uid="Settings_TitlesToggle" Grid.Column="1" OnContent="" OffContent="" MinWidth="0" />
                 </Grid>
                 <ItemsControl x:Name="TitleRulesList">
                     <ItemsControl.ItemTemplate>
@@ -172,10 +180,10 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <CheckBox IsChecked="{x:Bind Enabled, Mode=TwoWay}" MinWidth="0" VerticalAlignment="Center"
-                                                  AutomationProperties.Name="Activa" ToolTipService.ToolTip="Activa" />
-                                        <TextBox Grid.Column="1" PlaceholderText="Nombre" Text="{x:Bind Name, Mode=TwoWay}" />
+                                                  x:Uid="Settings_RuleEnabled" />
+                                        <TextBox Grid.Column="1" x:Uid="Settings_RuleName" Text="{x:Bind Name, Mode=TwoWay}" />
                                         <Button Grid.Column="2" Click="OnRemoveTitleRule" Tag="{x:Bind}" Padding="8"
-                                                ToolTipService.ToolTip="Quitar regla" AutomationProperties.Name="Quitar regla">
+                                                x:Uid="Settings_RuleRemove">
                                             <FontIcon Glyph="&#xE74D;" FontSize="14" />
                                         </Button>
                                     </Grid>
@@ -184,22 +192,21 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBox PlaceholderText="App (cualquiera)" Text="{x:Bind App, Mode=TwoWay}" />
+                                        <TextBox x:Uid="Settings_RuleApp" Text="{x:Bind App, Mode=TwoWay}" />
                                         <ComboBox Grid.Column="1" ItemsSource="{x:Bind local:TitleRuleRow.PriorityNames}" SelectedIndex="{x:Bind PriorityIndex, Mode=TwoWay}" MinWidth="110" />
                                     </Grid>
-                                    <TextBox PlaceholderText="Patrón (expresión regular)" FontFamily="Consolas" Text="{x:Bind Pattern, Mode=TwoWay}" />
+                                    <TextBox x:Uid="Settings_RulePattern" FontFamily="Consolas" Text="{x:Bind Pattern, Mode=TwoWay}" />
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Button Content="Agregar regla de título" Click="OnAddTitleRule" />
+                <Button x:Uid="Settings_AddTitleRule" Click="OnAddTitleRule" />
 
-                <TextBlock Text="Privacidad" Style="{StaticResource SectionTitle}" />
-                <TextBlock Style="{StaticResource Hint}"
-                           Text="Todo se procesa en este equipo. El historial se guarda cifrado para tu usuario de Windows y se borra pasado el periodo de retención." />
-                <HyperlinkButton x:Name="PrivacyLink" Content="Política de privacidad" Padding="0" />
-                <NumberBox x:Name="RetentionBox" Header="Retención del historial (horas)" Minimum="1" Maximum="168" SpinButtonPlacementMode="Compact" HorizontalAlignment="Left" />
+                <TextBlock x:Uid="Settings_PrivacySection" Style="{StaticResource SectionTitle}" />
+                <TextBlock x:Uid="Settings_PrivacyHint" Style="{StaticResource Hint}" />
+                <HyperlinkButton x:Name="PrivacyLink" x:Uid="Settings_PrivacyLink" Padding="0" />
+                <NumberBox x:Name="RetentionBox" x:Uid="Settings_Retention" Minimum="1" Maximum="168" SpinButtonPlacementMode="Compact" HorizontalAlignment="Left" />
             </StackPanel>
         </ScrollViewer>
 
@@ -214,7 +221,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Content="Guardar" Style="{StaticResource AccentButtonStyle}" Click="OnSave" MinWidth="100" />
+            <Button x:Uid="Settings_Save" Style="{StaticResource AccentButtonStyle}" Click="OnSave" MinWidth="100" />
             <TextBlock x:Name="SavedText" Grid.Column="1" Style="{StaticResource Hint}" VerticalAlignment="Center" />
         </Grid>
     </Grid>

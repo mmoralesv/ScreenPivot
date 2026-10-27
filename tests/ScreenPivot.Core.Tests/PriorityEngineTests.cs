@@ -19,7 +19,8 @@ public class PriorityEngineTests
         var settings = new AppSettings { VipSenders = { "Ana Pérez" } };
         var decision = PriorityEngine.Evaluate(Event("Outlook", "ana pérez", "Revisión del contrato"), settings);
         Assert.Equal(Priority.Critical, decision.Priority);
-        Assert.Contains("VIP", decision.Reason);
+        Assert.Equal(ReasonKind.Vip, decision.Kind);
+        Assert.Equal("Ana Pérez", decision.Detail);
     }
 
     [Fact]
@@ -39,7 +40,7 @@ public class PriorityEngineTests
     {
         var decision = PriorityEngine.Evaluate(Event("Google Chrome", "Descarga completa"), new AppSettings());
         Assert.Equal(Priority.Normal, decision.Priority);
-        Assert.Equal("Sin regla", decision.Reason);
+        Assert.Equal(ReasonKind.NoRule, decision.Kind);
     }
 
     [Fact]

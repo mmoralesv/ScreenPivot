@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from one table so es-ES and en-US always share the same keys (see LocalizationTests). -->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppDescription" xml:space="preserve"><value>Avisos y resumen de las apps del equipo mientras trabajas en un Cloud PC a pantalla completa.</value></data>
+  <data name="Panel_Back.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Volver al resumen</value></data>
+  <data name="Panel_Back.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Volver al resumen</value></data>
+  <data name="Panel_Settings.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Ajustes</value></data>
+  <data name="Panel_Settings.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Ajustes</value></data>
+  <data name="Panel_Hide.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Ocultar (Esc)</value></data>
+  <data name="Panel_Hide.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Ocultar</value></data>
+  <data name="Panel_SettingsTitle" xml:space="preserve"><value>Ajustes</value></data>
+  <data name="Digest_SessionFilter.Text" xml:space="preserve"><value>Sesión remota</value></data>
+  <data name="Digest_HistoryFilter.Text" xml:space="preserve"><value>Historial</value></data>
+  <data name="Digest_MoreActions.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Más acciones</value></data>
+  <data name="Digest_MoreActions.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Más acciones</value></data>
+  <data name="Digest_MarkReviewed.Text" xml:space="preserve"><value>Marcar como revisado</value></data>
+  <data name="Digest_ClearHistory.Text" xml:space="preserve"><value>Borrar historial</value></data>
+  <data name="Digest_Open.Content" xml:space="preserve"><value>Abrir</value></data>
+  <data name="Digest_Empty.Text" xml:space="preserve"><value>Aquí aparecerá lo que llegue al equipo mientras trabajas en el Cloud PC.</value></data>
+  <data name="Digest_MinimizeRemote.Content" xml:space="preserve"><value>Minimizar Cloud PC</value></data>
+  <data name="Digest_ReturnToRemote.Content" xml:space="preserve"><value>↩ Volver al Cloud PC</value></data>
+  <data name="Status_Paused" xml:space="preserve"><value>Avisos en pausa.</value></data>
+  <data name="Status_Remote" xml:space="preserve"><value>Cloud PC a pantalla completa desde las {0}.</value></data>
+  <data name="Status_Host" xml:space="preserve"><value>Trabajando en el equipo.</value></data>
+  <data name="Status_Unreviewed" xml:space="preserve"><value>{0} {1} sin revisar.</value></data>
+  <data name="Settings_GeneralSection.Text" xml:space="preserve"><value>General</value></data>
+  <data name="Settings_Paused.Text" xml:space="preserve"><value>Pausar avisos</value></data>
+  <data name="Settings_PausedToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Pausar avisos</value></data>
+  <data name="Settings_Startup.Text" xml:space="preserve"><value>Iniciar con Windows</value></data>
+  <data name="Settings_StartupToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Iniciar con Windows</value></data>
+  <data name="Settings_DigestOnReturn.Text" xml:space="preserve"><value>Abrir el resumen al salir del Cloud PC</value></data>
+  <data name="Settings_DigestOnReturnToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Abrir el resumen al salir del Cloud PC</value></data>
+  <data name="Settings_Maximized.Text" xml:space="preserve"><value>Contar el Cloud PC maximizado</value></data>
+  <data name="Settings_MaximizedToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Contar el Cloud PC maximizado</value></data>
+  <data name="Settings_MaximizedHint.Text" xml:space="preserve"><value>Además de a pantalla completa, cuando la sesión está maximizada y se ve la barra de tareas del equipo.</value></data>
+  <data name="Settings_LanguageSection.Text" xml:space="preserve"><value>Idioma</value></data>
+  <data name="Settings_Language.Header" xml:space="preserve"><value>Idioma de ScreenPivot</value></data>
+  <data name="Settings_LanguageAuto.Content" xml:space="preserve"><value>Automático (idioma de Windows)</value></data>
+  <data name="Settings_LanguageRestartHint.Text" xml:space="preserve"><value>Se aplica al reiniciar ScreenPivot.</value></data>
+  <data name="Settings_Restart.Content" xml:space="preserve"><value>Reiniciar ahora</value></data>
+  <data name="Settings_PanelSection.Text" xml:space="preserve"><value>Panel lateral</value></data>
+  <data name="Settings_PanelEdge.Header" xml:space="preserve"><value>Borde</value></data>
+  <data name="Settings_EdgeLeft.Content" xml:space="preserve"><value>Izquierda</value></data>
+  <data name="Settings_EdgeRight.Content" xml:space="preserve"><value>Derecha</value></data>
+  <data name="Settings_EdgeTop.Content" xml:space="preserve"><value>Arriba</value></data>
+  <data name="Settings_EdgeBottom.Content" xml:space="preserve"><value>Abajo</value></data>
+  <data name="Settings_PanelMonitor.Header" xml:space="preserve"><value>Monitor</value></data>
+  <data name="Settings_AlertsSection.Text" xml:space="preserve"><value>Avisos sobre el Cloud PC</value></data>
+  <data name="Settings_Corner.Header" xml:space="preserve"><value>Esquina del banner</value></data>
+  <data name="Settings_CornerTopLeft.Content" xml:space="preserve"><value>Arriba a la izquierda</value></data>
+  <data name="Settings_CornerTopRight.Content" xml:space="preserve"><value>Arriba a la derecha</value></data>
+  <data name="Settings_CornerBottomLeft.Content" xml:space="preserve"><value>Abajo a la izquierda</value></data>
+  <data name="Settings_CornerBottomRight.Content" xml:space="preserve"><value>Abajo a la derecha</value></data>
+  <data name="Settings_BannerMonitor.Header" xml:space="preserve"><value>Monitor del banner</value></data>
+  <data name="Settings_BannerSeconds.Header" xml:space="preserve"><value>Segundos del aviso alto</value></data>
+  <data name="Settings_SwitchMode.Header" xml:space="preserve"><value>Al abrir una app desde un aviso</value></data>
+  <data name="Settings_SwitchBringToFront.Content" xml:space="preserve"><value>Traerla encima del Cloud PC</value></data>
+  <data name="Settings_SwitchMinimize.Content" xml:space="preserve"><value>Minimizar el Cloud PC</value></data>
+  <data name="Settings_QuickAccess.Text" xml:space="preserve"><value>Mostrar siempre «Ir al equipo»</value></data>
+  <data name="Settings_QuickAccessToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Mostrar siempre «Ir al equipo»</value></data>
+  <data name="Settings_TestBanner.Content" xml:space="preserve"><value>Probar banner en 5 s</value></data>
+  <data name="Settings_TestHintNow" xml:space="preserve"><value>Cambia ahora al Cloud PC a pantalla completa…</value></data>
+  <data name="Settings_SoundsSection.Text" xml:space="preserve"><value>Sonidos</value></data>
+  <data name="Settings_SoundsHint.Text" xml:space="preserve"><value>Solo para avisos que llegan mientras estás en el Cloud PC. Los sonidos de Windows siguen tu esquema de sonido.</value></data>
+  <data name="Settings_Sound.Text" xml:space="preserve"><value>Reproducir sonidos</value></data>
+  <data name="Settings_SoundToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Reproducir sonidos</value></data>
+  <data name="Settings_PrioritiesSection.Text" xml:space="preserve"><value>Prioridades</value></data>
+  <data name="Settings_PrioritiesHint.Text" xml:space="preserve"><value>Orden: app silenciada → remitente VIP → palabra clave crítica → la regla de mayor prioridad → Normal. Una entrada por línea.</value></data>
+  <data name="Settings_Vip.Header" xml:space="preserve"><value>Remitentes VIP (críticos)</value></data>
+  <data name="Settings_Keywords.Header" xml:space="preserve"><value>Palabras clave críticas</value></data>
+  <data name="Settings_Muted.Header" xml:space="preserve"><value>Apps silenciadas</value></data>
+  <data name="Settings_RulesSection.Text" xml:space="preserve"><value>Reglas por app</value></data>
+  <data name="Settings_RuleEnabled.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Activa</value></data>
+  <data name="Settings_RuleEnabled.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Activa</value></data>
+  <data name="Settings_RuleName.PlaceholderText" xml:space="preserve"><value>Nombre</value></data>
+  <data name="Settings_RuleRemove.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Quitar regla</value></data>
+  <data name="Settings_RuleRemove.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Quitar regla</value></data>
+  <data name="Settings_RuleApp.PlaceholderText" xml:space="preserve"><value>App (cualquiera)</value></data>
+  <data name="Settings_RuleKeywords.PlaceholderText" xml:space="preserve"><value>Palabras, separadas por coma (cualquier texto)</value></data>
+  <data name="Settings_RulePattern.PlaceholderText" xml:space="preserve"><value>Patrón (expresión regular)</value></data>
+  <data name="Settings_AddRule.Content" xml:space="preserve"><value>Agregar regla</value></data>
+  <data name="Settings_NoToastSection.Text" xml:space="preserve"><value>Apps sin notificaciones</value></data>
+  <data name="Settings_NoToastHint.Text" xml:space="preserve"><value>Solo mientras estás en el Cloud PC, y nunca de la ventana que tienes delante. Si el patrón tiene un primer grupo numérico, por ejemplo ^\((\d+)\), avisa cuando ese número sube; si no, cuando el texto aparece o cambia.</value></data>
+  <data name="Settings_Flashes.Text" xml:space="preserve"><value>Parpadeos en la barra de tareas</value></data>
+  <data name="Settings_FlashesToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Parpadeos en la barra de tareas</value></data>
+  <data name="Settings_Titles.Text" xml:space="preserve"><value>Cambios en el título de las ventanas</value></data>
+  <data name="Settings_TitlesToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Cambios en el título de las ventanas</value></data>
+  <data name="Settings_AddTitleRule.Content" xml:space="preserve"><value>Agregar regla de título</value></data>
+  <data name="Settings_PrivacySection.Text" xml:space="preserve"><value>Privacidad</value></data>
+  <data name="Settings_PrivacyHint.Text" xml:space="preserve"><value>Todo se procesa en este equipo. El historial se guarda cifrado para tu usuario de Windows y se borra pasado el periodo de retención.</value></data>
+  <data name="Settings_PrivacyLink.Content" xml:space="preserve"><value>Política de privacidad</value></data>
+  <data name="Settings_Retention.Header" xml:space="preserve"><value>Retención del historial (horas)</value></data>
+  <data name="Settings_Save.Content" xml:space="preserve"><value>Guardar</value></data>
+  <data name="Monitor_AutoBanner" xml:space="preserve"><value>Automático (donde esté el Cloud PC)</value></data>
+  <data name="Monitor_AutoPanel" xml:space="preserve"><value>Donde hagas clic</value></data>
+  <data name="Monitor_Item" xml:space="preserve"><value>Monitor {0}{1} · {2}x{3}</value></data>
+  <data name="Monitor_Primary" xml:space="preserve"><value> (principal)</value></data>
+  <data name="Validation_NoPattern" xml:space="preserve"><value>La regla «{0}» no tiene patrón.</value></data>
+  <data name="Validation_BadPattern" xml:space="preserve"><value>El patrón de «{0}» no es válido: {1}</value></data>
+  <data name="Access_AllowedTitle" xml:space="preserve"><value>Acceso a notificaciones activo</value></data>
+  <data name="Access_AllowedEvent" xml:space="preserve"><value>Recibe notificaciones al instante.</value></data>
+  <data name="Access_AllowedPolling" xml:space="preserve"><value>Revisa el Centro de notificaciones cada 2 segundos.</value></data>
+  <data name="Access_DeniedTitle" xml:space="preserve"><value>Acceso a notificaciones denegado</value></data>
+  <data name="Access_DeniedMessage" xml:space="preserve"><value>Actívalo en Configuración &gt; Privacidad y seguridad &gt; Notificaciones.</value></data>
+  <data name="Access_OpenSettings" xml:space="preserve"><value>Abrir Configuración</value></data>
+  <data name="Access_UnavailableTitle" xml:space="preserve"><value>Lectura de notificaciones no disponible</value></data>
+  <data name="Access_UnavailableMessage" xml:space="preserve"><value>Esta versión de Windows o una directiva de la organización la bloquea.</value></data>
+  <data name="Access_NeededTitle" xml:space="preserve"><value>ScreenPivot necesita leer tus notificaciones</value></data>
+  <data name="Access_NeededMessage" xml:space="preserve"><value>Solo así puede avisarte de lo que pasa en el equipo mientras usas el Cloud PC. Nada sale de este equipo.</value></data>
+  <data name="Access_Allow" xml:space="preserve"><value>Permitir acceso</value></data>
+  <data name="Detection_NoSession" xml:space="preserve"><value>No hay una sesión de Windows App / Escritorio remoto abierta.</value></data>
+  <data name="Detection_NotCovering" xml:space="preserve"><value>Sesión «{0}» abierta, sin cubrir la pantalla.</value></data>
+  <data name="Detection_Covering" xml:space="preserve"><value>Sesión «{0}» cubre: {1}.</value></data>
+  <data name="Detection_MonitorFull" xml:space="preserve"><value>monitor {0} (pantalla completa)</value></data>
+  <data name="Detection_MonitorMaximized" xml:space="preserve"><value>monitor {0} (maximizado)</value></data>
+  <data name="Rule_New" xml:space="preserve"><value>Nueva regla</value></data>
+  <data name="TitleRule_New" xml:space="preserve"><value>Nueva regla de título</value></data>
+  <data name="Save_Failed" xml:space="preserve"><value>No se guardó. {0}</value></data>
+  <data name="Save_Done" xml:space="preserve"><value>Guardado a las {0}.</value></data>
+  <data name="Sound_PickFile" xml:space="preserve"><value>Elegir archivo WAV…</value></data>
+  <data name="Sound_Test" xml:space="preserve"><value>Probar</value></data>
+  <data name="Sound_Silent" xml:space="preserve"><value>{0}: sin sonido.</value></data>
+  <data name="Sound_Playing" xml:space="preserve"><value>{0}: {1}.</value></data>
+  <data name="Sound_Failed" xml:space="preserve"><value>No se pudo reproducir «{0}». Puede que tu esquema de sonido de Windows no tenga uno asignado o que el archivo ya no exista.</value></data>
+  <data name="Overlay_QuickAccess" xml:space="preserve"><value>ScreenPivot · Ir al equipo</value></data>
+  <data name="Overlay_Return" xml:space="preserve"><value>↩ Volver al Cloud PC</value></data>
+  <data name="Overlay_ReturnWithCount" xml:space="preserve"><value>↩ Volver al Cloud PC · {0}</value></data>
+  <data name="Overlay_Open" xml:space="preserve"><value>Abrir</value></data>
+  <data name="Tray_OpenDigest" xml:space="preserve"><value>Abrir resumen</value></data>
+  <data name="Tray_Settings" xml:space="preserve"><value>Ajustes</value></data>
+  <data name="Tray_Return" xml:space="preserve"><value>Volver al Cloud PC</value></data>
+  <data name="Tray_Minimize" xml:space="preserve"><value>Minimizar Cloud PC</value></data>
+  <data name="Tray_Pause" xml:space="preserve"><value>Pausar avisos</value></data>
+  <data name="Tray_Exit" xml:space="preserve"><value>Salir</value></data>
+  <data name="Tray_StatePaused" xml:space="preserve"><value>en pausa</value></data>
+  <data name="Tray_StateRemote" xml:space="preserve"><value>Cloud PC a pantalla completa</value></data>
+  <data name="Tray_StateHost" xml:space="preserve"><value>en el equipo</value></data>
+  <data name="Test_BannerTitle" xml:space="preserve"><value>Banner de prueba</value></data>
+  <data name="Test_BannerBody" xml:space="preserve"><value>Haz clic para cerrarlo. Debe verse encima del Cloud PC.</value></data>
+  <data name="Notice_NotFound" xml:space="preserve"><value>No encontré una ventana de {0} ni pude abrirla. Ábrela desde el equipo.</value></data>
+  <data name="Notice_FocusDenied" xml:space="preserve"><value>Windows no permitió traer {0} al frente. Búscala en la barra de tareas.</value></data>
+  <data name="Notice_ReturnFailed" xml:space="preserve"><value>No encontré la sesión del Cloud PC o Windows no permitió activarla.</value></data>
+</root>

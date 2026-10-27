@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from one table so es-ES and en-US always share the same keys (see LocalizationTests). -->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppDescription" xml:space="preserve"><value>Alerts and a summary from your computer&apos;s apps while you work in a full-screen Cloud PC.</value></data>
+  <data name="Panel_Back.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Back to the summary</value></data>
+  <data name="Panel_Back.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Back to the summary</value></data>
+  <data name="Panel_Settings.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Settings</value></data>
+  <data name="Panel_Settings.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Settings</value></data>
+  <data name="Panel_Hide.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Hide (Esc)</value></data>
+  <data name="Panel_Hide.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Hide</value></data>
+  <data name="Panel_SettingsTitle" xml:space="preserve"><value>Settings</value></data>
+  <data name="Digest_SessionFilter.Text" xml:space="preserve"><value>Remote session</value></data>
+  <data name="Digest_HistoryFilter.Text" xml:space="preserve"><value>History</value></data>
+  <data name="Digest_MoreActions.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>More actions</value></data>
+  <data name="Digest_MoreActions.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>More actions</value></data>
+  <data name="Digest_MarkReviewed.Text" xml:space="preserve"><value>Mark as reviewed</value></data>
+  <data name="Digest_ClearHistory.Text" xml:space="preserve"><value>Clear history</value></data>
+  <data name="Digest_Open.Content" xml:space="preserve"><value>Open</value></data>
+  <data name="Digest_Empty.Text" xml:space="preserve"><value>What arrives on this computer while you work in the Cloud PC will show up here.</value></data>
+  <data name="Digest_MinimizeRemote.Content" xml:space="preserve"><value>Minimize Cloud PC</value></data>
+  <data name="Digest_ReturnToRemote.Content" xml:space="preserve"><value>↩ Back to the Cloud PC</value></data>
+  <data name="Status_Paused" xml:space="preserve"><value>Alerts paused.</value></data>
+  <data name="Status_Remote" xml:space="preserve"><value>Cloud PC in full screen since {0}.</value></data>
+  <data name="Status_Host" xml:space="preserve"><value>Working on this computer.</value></data>
+  <data name="Status_Unreviewed" xml:space="preserve"><value>{0} {1} not reviewed.</value></data>
+  <data name="Settings_GeneralSection.Text" xml:space="preserve"><value>General</value></data>
+  <data name="Settings_Paused.Text" xml:space="preserve"><value>Pause alerts</value></data>
+  <data name="Settings_PausedToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Pause alerts</value></data>
+  <data name="Settings_Startup.Text" xml:space="preserve"><value>Start with Windows</value></data>
+  <data name="Settings_StartupToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Start with Windows</value></data>
+  <data name="Settings_DigestOnReturn.Text" xml:space="preserve"><value>Open the summary when leaving the Cloud PC</value></data>
+  <data name="Settings_DigestOnReturnToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Open the summary when leaving the Cloud PC</value></data>
+  <data name="Settings_Maximized.Text" xml:space="preserve"><value>Count a maximized Cloud PC</value></data>
+  <data name="Settings_MaximizedToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Count a maximized Cloud PC</value></data>
+  <data name="Settings_MaximizedHint.Text" xml:space="preserve"><value>Besides full screen, also when the session is maximized and this computer&apos;s taskbar is visible.</value></data>
+  <data name="Settings_LanguageSection.Text" xml:space="preserve"><value>Language</value></data>
+  <data name="Settings_Language.Header" xml:space="preserve"><value>ScreenPivot language</value></data>
+  <data name="Settings_LanguageAuto.Content" xml:space="preserve"><value>Automatic (Windows language)</value></data>
+  <data name="Settings_LanguageRestartHint.Text" xml:space="preserve"><value>Applies when ScreenPivot restarts.</value></data>
+  <data name="Settings_Restart.Content" xml:space="preserve"><value>Restart now</value></data>
+  <data name="Settings_PanelSection.Text" xml:space="preserve"><value>Side panel</value></data>
+  <data name="Settings_PanelEdge.Header" xml:space="preserve"><value>Edge</value></data>
+  <data name="Settings_EdgeLeft.Content" xml:space="preserve"><value>Left</value></data>
+  <data name="Settings_EdgeRight.Content" xml:space="preserve"><value>Right</value></data>
+  <data name="Settings_EdgeTop.Content" xml:space="preserve"><value>Top</value></data>
+  <data name="Settings_EdgeBottom.Content" xml:space="preserve"><value>Bottom</value></data>
+  <data name="Settings_PanelMonitor.Header" xml:space="preserve"><value>Monitor</value></data>
+  <data name="Settings_AlertsSection.Text" xml:space="preserve"><value>Alerts over the Cloud PC</value></data>
+  <data name="Settings_Corner.Header" xml:space="preserve"><value>Banner corner</value></data>
+  <data name="Settings_CornerTopLeft.Content" xml:space="preserve"><value>Top left</value></data>
+  <data name="Settings_CornerTopRight.Content" xml:space="preserve"><value>Top right</value></data>
+  <data name="Settings_CornerBottomLeft.Content" xml:space="preserve"><value>Bottom left</value></data>
+  <data name="Settings_CornerBottomRight.Content" xml:space="preserve"><value>Bottom right</value></data>
+  <data name="Settings_BannerMonitor.Header" xml:space="preserve"><value>Banner monitor</value></data>
+  <data name="Settings_BannerSeconds.Header" xml:space="preserve"><value>Seconds for high alerts</value></data>
+  <data name="Settings_SwitchMode.Header" xml:space="preserve"><value>When opening an app from an alert</value></data>
+  <data name="Settings_SwitchBringToFront.Content" xml:space="preserve"><value>Bring it on top of the Cloud PC</value></data>
+  <data name="Settings_SwitchMinimize.Content" xml:space="preserve"><value>Minimize the Cloud PC</value></data>
+  <data name="Settings_QuickAccess.Text" xml:space="preserve"><value>Always show &quot;Go to this PC&quot;</value></data>
+  <data name="Settings_QuickAccessToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Always show &quot;Go to this PC&quot;</value></data>
+  <data name="Settings_TestBanner.Content" xml:space="preserve"><value>Test banner in 5 s</value></data>
+  <data name="Settings_TestHintNow" xml:space="preserve"><value>Switch to the full-screen Cloud PC now…</value></data>
+  <data name="Settings_SoundsSection.Text" xml:space="preserve"><value>Sounds</value></data>
+  <data name="Settings_SoundsHint.Text" xml:space="preserve"><value>Only for alerts that arrive while you are in the Cloud PC. Windows sounds follow your sound scheme.</value></data>
+  <data name="Settings_Sound.Text" xml:space="preserve"><value>Play sounds</value></data>
+  <data name="Settings_SoundToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Play sounds</value></data>
+  <data name="Settings_PrioritiesSection.Text" xml:space="preserve"><value>Priorities</value></data>
+  <data name="Settings_PrioritiesHint.Text" xml:space="preserve"><value>Order: muted app → VIP sender → critical keyword → the highest-priority rule → Normal. One entry per line.</value></data>
+  <data name="Settings_Vip.Header" xml:space="preserve"><value>VIP senders (critical)</value></data>
+  <data name="Settings_Keywords.Header" xml:space="preserve"><value>Critical keywords</value></data>
+  <data name="Settings_Muted.Header" xml:space="preserve"><value>Muted apps</value></data>
+  <data name="Settings_RulesSection.Text" xml:space="preserve"><value>App rules</value></data>
+  <data name="Settings_RuleEnabled.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Enabled</value></data>
+  <data name="Settings_RuleEnabled.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Enabled</value></data>
+  <data name="Settings_RuleName.PlaceholderText" xml:space="preserve"><value>Name</value></data>
+  <data name="Settings_RuleRemove.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Remove rule</value></data>
+  <data name="Settings_RuleRemove.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Remove rule</value></data>
+  <data name="Settings_RuleApp.PlaceholderText" xml:space="preserve"><value>App (any)</value></data>
+  <data name="Settings_RuleKeywords.PlaceholderText" xml:space="preserve"><value>Words, comma separated (any text)</value></data>
+  <data name="Settings_RulePattern.PlaceholderText" xml:space="preserve"><value>Pattern (regular expression)</value></data>
+  <data name="Settings_AddRule.Content" xml:space="preserve"><value>Add rule</value></data>
+  <data name="Settings_NoToastSection.Text" xml:space="preserve"><value>Apps without notifications</value></data>
+  <data name="Settings_NoToastHint.Text" xml:space="preserve"><value>Only while you are in the Cloud PC, and never for the window in front of you. If the pattern&apos;s first group is a number, for example ^\((\d+)\), it alerts when that number goes up; otherwise when the text appears or changes.</value></data>
+  <data name="Settings_Flashes.Text" xml:space="preserve"><value>Taskbar flashes</value></data>
+  <data name="Settings_FlashesToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Taskbar flashes</value></data>
+  <data name="Settings_Titles.Text" xml:space="preserve"><value>Window title changes</value></data>
+  <data name="Settings_TitlesToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Window title changes</value></data>
+  <data name="Settings_AddTitleRule.Content" xml:space="preserve"><value>Add title rule</value></data>
+  <data name="Settings_PrivacySection.Text" xml:space="preserve"><value>Privacy</value></data>
+  <data name="Settings_PrivacyHint.Text" xml:space="preserve"><value>Everything is processed on this computer. The history is stored encrypted for your Windows user and deleted after the retention period.</value></data>
+  <data name="Settings_PrivacyLink.Content" xml:space="preserve"><value>Privacy policy</value></data>
+  <data name="Settings_Retention.Header" xml:space="preserve"><value>History retention (hours)</value></data>
+  <data name="Settings_Save.Content" xml:space="preserve"><value>Save</value></data>
+  <data name="Monitor_AutoBanner" xml:space="preserve"><value>Automatic (where the Cloud PC is)</value></data>
+  <data name="Monitor_AutoPanel" xml:space="preserve"><value>Where you click</value></data>
+  <data name="Monitor_Item" xml:space="preserve"><value>Monitor {0}{1} · {2}x{3}</value></data>
+  <data name="Monitor_Primary" xml:space="preserve"><value> (primary)</value></data>
+  <data name="Validation_NoPattern" xml:space="preserve"><value>The rule &quot;{0}&quot; has no pattern.</value></data>
+  <data name="Validation_BadPattern" xml:space="preserve"><value>The pattern of &quot;{0}&quot; is not valid: {1}</value></data>
+  <data name="Access_AllowedTitle" xml:space="preserve"><value>Notification access is on</value></data>
+  <data name="Access_AllowedEvent" xml:space="preserve"><value>Notifications arrive instantly.</value></data>
+  <data name="Access_AllowedPolling" xml:space="preserve"><value>Checks the notification center every 2 seconds.</value></data>
+  <data name="Access_DeniedTitle" xml:space="preserve"><value>Notification access denied</value></data>
+  <data name="Access_DeniedMessage" xml:space="preserve"><value>Turn it on in Settings &gt; Privacy &amp; security &gt; Notifications.</value></data>
+  <data name="Access_OpenSettings" xml:space="preserve"><value>Open Settings</value></data>
+  <data name="Access_UnavailableTitle" xml:space="preserve"><value>Reading notifications is not available</value></data>
+  <data name="Access_UnavailableMessage" xml:space="preserve"><value>This version of Windows or an organization policy blocks it.</value></data>
+  <data name="Access_NeededTitle" xml:space="preserve"><value>ScreenPivot needs to read your notifications</value></data>
+  <data name="Access_NeededMessage" xml:space="preserve"><value>That is the only way it can tell you what happens on this computer while you use the Cloud PC. Nothing leaves this computer.</value></data>
+  <data name="Access_Allow" xml:space="preserve"><value>Allow access</value></data>
+  <data name="Detection_NoSession" xml:space="preserve"><value>No Windows App / Remote Desktop session is open.</value></data>
+  <data name="Detection_NotCovering" xml:space="preserve"><value>Session &quot;{0}&quot; is open but not covering the screen.</value></data>
+  <data name="Detection_Covering" xml:space="preserve"><value>Session &quot;{0}&quot; covers: {1}.</value></data>
+  <data name="Detection_MonitorFull" xml:space="preserve"><value>monitor {0} (full screen)</value></data>
+  <data name="Detection_MonitorMaximized" xml:space="preserve"><value>monitor {0} (maximized)</value></data>
+  <data name="Rule_New" xml:space="preserve"><value>New rule</value></data>
+  <data name="TitleRule_New" xml:space="preserve"><value>New title rule</value></data>
+  <data name="Save_Failed" xml:space="preserve"><value>Not saved. {0}</value></data>
+  <data name="Save_Done" xml:space="preserve"><value>Saved at {0}.</value></data>
+  <data name="Sound_PickFile" xml:space="preserve"><value>Choose WAV file…</value></data>
+  <data name="Sound_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Sound_Silent" xml:space="preserve"><value>{0}: no sound.</value></data>
+  <data name="Sound_Playing" xml:space="preserve"><value>{0}: {1}.</value></data>
+  <data name="Sound_Failed" xml:space="preserve"><value>Couldn&apos;t play &quot;{0}&quot;. Your Windows sound scheme may have no sound assigned, or the file no longer exists.</value></data>
+  <data name="Overlay_QuickAccess" xml:space="preserve"><value>ScreenPivot · Go to this PC</value></data>
+  <data name="Overlay_Return" xml:space="preserve"><value>↩ Back to the Cloud PC</value></data>
+  <data name="Overlay_ReturnWithCount" xml:space="preserve"><value>↩ Back to the Cloud PC · {0}</value></data>
+  <data name="Overlay_Open" xml:space="preserve"><value>Open</value></data>
+  <data name="Tray_OpenDigest" xml:space="preserve"><value>Open summary</value></data>
+  <data name="Tray_Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Tray_Return" xml:space="preserve"><value>Back to the Cloud PC</value></data>
+  <data name="Tray_Minimize" xml:space="preserve"><value>Minimize Cloud PC</value></data>
+  <data name="Tray_Pause" xml:space="preserve"><value>Pause alerts</value></data>
+  <data name="Tray_Exit" xml:space="preserve"><value>Exit</value></data>
+  <data name="Tray_StatePaused" xml:space="preserve"><value>paused</value></data>
+  <data name="Tray_StateRemote" xml:space="preserve"><value>Cloud PC in full screen</value></data>
+  <data name="Tray_StateHost" xml:space="preserve"><value>on this computer</value></data>
+  <data name="Test_BannerTitle" xml:space="preserve"><value>Test banner</value></data>
+  <data name="Test_BannerBody" xml:space="preserve"><value>Click to close it. It should appear on top of the Cloud PC.</value></data>
+  <data name="Notice_NotFound" xml:space="preserve"><value>Couldn&apos;t find or open a window of {0}. Open it from this computer.</value></data>
+  <data name="Notice_FocusDenied" xml:space="preserve"><value>Windows didn&apos;t allow bringing {0} to the front. Look for it in the taskbar.</value></data>
+  <data name="Notice_ReturnFailed" xml:space="preserve"><value>Couldn&apos;t find the Cloud PC session, or Windows didn&apos;t allow activating it.</value></data>
+</root>

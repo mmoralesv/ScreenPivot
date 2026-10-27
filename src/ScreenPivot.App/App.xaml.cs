@@ -1,5 +1,6 @@
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 using ScreenPivot.App.Services;
 using ScreenPivot.Core.Sources;
 
@@ -9,11 +10,15 @@ public partial class App : Application
 {
     public const string DemoArgument = "--demo";
 
+    /// <summary>Opens the settings right away (used after restarting to apply a new language).</summary>
+    public const string OpenSettingsArgument = "--open-settings";
+
     /// <summary>Public privacy policy (docs/store/privacy-policy.md, hosted). Empty hides the link in Settings.</summary>
     public const string PrivacyPolicyUrl = "https://mmoralesv.github.io/ScreenPivot/store/privacy-policy.html";
 
     private readonly bool _startedInBackground;
     private readonly bool _demo;
+    private readonly bool _openSettings;
     private DispatcherQueue? _dispatcher;
     private PanelWindow? _window;
 
@@ -21,6 +26,7 @@ public partial class App : Application
     {
         _startedInBackground = args.Contains(StartupService.BackgroundArgument);
         _demo = args.Contains(DemoArgument);
+        _openSettings = args.Contains(OpenSettingsArgument);
         InitializeComponent();
         // Lives in the notification area: closing the window must not end the process.
         DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
@@ -42,7 +48,8 @@ public partial class App : Application
         await Services.StartAsync();
 
         bool needsSetup = !Services.Settings.OnboardingCompleted || Services.Toasts.Access != ToastAccess.Allowed;
-        if (_demo) ShowPanel(AppPage.Digest);
+        if (_openSettings) ShowPanel(AppPage.Settings);
+        else if (_demo) ShowPanel(AppPage.Digest);
         else if (needsSetup) ShowPanel(AppPage.Settings);
         else if (!_startedInBackground) ShowPanel(AppPage.Digest);
     }
@@ -59,6 +66,21 @@ public partial class App : Application
     internal void RepositionPanel()
     {
         if (_window?.IsOpen == true) _window.PlaceOnEdge();
+    }
+
+    /// <summary>
+    /// Restarts to apply a new UI language (MRT and XAML resources are fixed once loaded). The single-instance key is
+    /// released first so the new process does not redirect back to this one.
+    /// </summary>
+    internal void Restart()
+    {
+        var args = string.Join(" ", new[] { _demo ? DemoArgument : "", OpenSettingsArgument }.Where(a => a.Length > 0));
+        _window?.CloseForExit();
+        Services.Dispose();
+        AppInstance.GetCurrent().UnregisterKey();
+        AppInstance.Restart(args); // only returns if Windows refused; then start a new process ourselves
+        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Environment.ProcessPath!, args) { UseShellExecute = false });
+        Exit();
     }
 
     private void Shutdown()

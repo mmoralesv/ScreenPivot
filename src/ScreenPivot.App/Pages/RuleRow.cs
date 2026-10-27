@@ -6,7 +6,7 @@ namespace ScreenPivot.App.Pages;
 /// <summary>Editable row for a <see cref="PriorityRule"/>; keywords are edited as comma-separated text.</summary>
 public sealed class RuleRow
 {
-    public static IReadOnlyList<string> PriorityNames { get; } = Format.PriorityNames;
+    public static IReadOnlyList<string> PriorityNames => Format.PriorityNames;
 
     public bool Enabled { get; set; } = true;
     public string Name { get; set; } = "";

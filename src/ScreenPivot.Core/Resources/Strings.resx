@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Neutral (fallback) resources: Spanish, the app's default language. English lives in Strings.en.resx. -->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Priority_Ignore" xml:space="preserve"><value>Ignorar</value></data>
+  <data name="Priority_Low" xml:space="preserve"><value>Baja</value></data>
+  <data name="Priority_Normal" xml:space="preserve"><value>Normal</value></data>
+  <data name="Priority_High" xml:space="preserve"><value>Alta</value></data>
+  <data name="Priority_Critical" xml:space="preserve"><value>Crítica</value></data>
+  <data name="Reason_NoRule" xml:space="preserve"><value>Sin regla</value></data>
+  <data name="Reason_Muted" xml:space="preserve"><value>App silenciada: {0}</value></data>
+  <data name="Reason_Vip" xml:space="preserve"><value>VIP: {0}</value></data>
+  <data name="Reason_Keyword" xml:space="preserve"><value>Palabra clave: {0}</value></data>
+  <data name="Reason_Rule" xml:space="preserve"><value>Regla: {0}</value></data>
+  <data name="Reason_TitleRule" xml:space="preserve"><value>Regla de título: {0}</value></data>
+  <data name="Reason_Test" xml:space="preserve"><value>Prueba</value></data>
+  <data name="Summary_None" xml:space="preserve"><value>Sin avisos nuevos.</value></data>
+  <data name="Summary_Headline" xml:space="preserve"><value>{0}: {1}.</value></data>
+  <data name="Summary_HeadlineWithParts" xml:space="preserve"><value>{0} ({1}): {2}.</value></data>
+  <data name="Summary_AndMore" xml:space="preserve"><value>{0} y {1} más</value></data>
+  <data name="Count_Alert_One" xml:space="preserve"><value>1 aviso</value></data>
+  <data name="Count_Alert_Many" xml:space="preserve"><value>{0} avisos</value></data>
+  <data name="Count_Critical_One" xml:space="preserve"><value>1 crítico</value></data>
+  <data name="Count_Critical_Many" xml:space="preserve"><value>{0} críticos</value></data>
+  <data name="Count_High_One" xml:space="preserve"><value>1 alto</value></data>
+  <data name="Count_High_Many" xml:space="preserve"><value>{0} altos</value></data>
+  <data name="Event_FlashBody" xml:space="preserve"><value>Pide tu atención (parpadea en la barra de tareas).</value></data>
+  <data name="Event_UnknownApp" xml:space="preserve"><value>App desconocida</value></data>
+  <data name="Rule_TeamsCalls" xml:space="preserve"><value>Llamadas de Teams</value></data>
+  <data name="Rule_MeetingStarting" xml:space="preserve"><value>Reunión por empezar</value></data>
+  <data name="Rule_TeamsMessages" xml:space="preserve"><value>Mensajes de Teams</value></data>
+  <data name="Rule_OutlookMail" xml:space="preserve"><value>Correo de Outlook</value></data>
+  <data name="TitleRule_Build" xml:space="preserve"><value>Compilación o despliegue terminado</value></data>
+  <data name="TitleRule_Unread" xml:space="preserve"><value>Mensajes sin leer en el título</value></data>
+  <data name="Sound_None" xml:space="preserve"><value>Ninguno</value></data>
+  <data name="Sound_Notification" xml:space="preserve"><value>Notificación</value></data>
+  <data name="Sound_InstantMessage" xml:space="preserve"><value>Mensaje instantáneo</value></data>
+  <data name="Sound_Mail" xml:space="preserve"><value>Correo nuevo</value></data>
+  <data name="Sound_Reminder" xml:space="preserve"><value>Recordatorio</value></data>
+  <data name="Sound_Sms" xml:space="preserve"><value>SMS</value></data>
+  <data name="Sound_Asterisk" xml:space="preserve"><value>Asterisco</value></data>
+  <data name="Sound_Exclamation" xml:space="preserve"><value>Exclamación</value></data>
+  <data name="Sound_CriticalStop" xml:space="preserve"><value>Error crítico</value></data>
+  <data name="Sound_File" xml:space="preserve"><value>Archivo: {0}</value></data>
+</root>

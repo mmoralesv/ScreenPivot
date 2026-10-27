@@ -1,8 +1,13 @@
+using ScreenPivot.Core.Localization;
 using ScreenPivot.Core.Model;
 
 namespace ScreenPivot.Core.Rules;
 
-public readonly record struct PriorityDecision(Priority Priority, string Reason);
+/// <param name="Detail">The VIP, keyword or rule name that matched; empty for other kinds.</param>
+public readonly record struct PriorityDecision(Priority Priority, ReasonKind Kind, string Detail = "")
+{
+    public string Reason => CoreText.Reason(Kind, Detail);
+}
 
 /// <summary>
 /// Order of precedence: muted app → VIP sender → critical keyword → highest of the matching app rules and the
@@ -13,23 +18,23 @@ public static class PriorityEngine
     public static PriorityDecision Evaluate(HostEvent e, AppSettings settings)
     {
         if (settings.MutedApps.FirstOrDefault(m => Contains(e.App, m)) is { } muted)
-            return new(Priority.Ignore, $"App silenciada: {muted}");
+            return new(Priority.Ignore, ReasonKind.Muted, muted);
 
         if (settings.VipSenders.FirstOrDefault(v => Contains(e.Title, v)) is { } vip)
-            return new(Priority.Critical, $"VIP: {vip}");
+            return new(Priority.Critical, ReasonKind.Vip, vip);
 
         if (settings.CriticalKeywords.FirstOrDefault(k => Contains(e.Title, k) || Contains(e.Body, k)) is { } keyword)
-            return new(Priority.Critical, $"Palabra clave: {keyword}");
+            return new(Priority.Critical, ReasonKind.Keyword, keyword);
 
         var best = settings.Rules
             .Where(r => r.Enabled && Matches(r, e))
             .OrderByDescending(r => r.Priority)
             .FirstOrDefault();
         if (e.SourcePriority is { } source && (best is null || source > best.Priority))
-            return new(source, $"Regla de título: {e.SourceRule}");
+            return new(source, ReasonKind.TitleRule, e.SourceRule);
         return best is null
-            ? new(Priority.Normal, "Sin regla")
-            : new(best.Priority, $"Regla: {best.Name}");
+            ? new(Priority.Normal, ReasonKind.NoRule)
+            : new(best.Priority, ReasonKind.Rule, best.Name);
     }
 
     public static bool Matches(PriorityRule rule, HostEvent e)

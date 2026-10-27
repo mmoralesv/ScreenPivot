@@ -1,6 +1,6 @@
 # Ficha de Microsoft Store — Español (es-ES)
 
-Idioma principal: es el idioma que declara el paquete (`ES-ES`). Copia cada bloque en el campo de Partner Center del mismo nombre (*Ficha de Store → Español*). Los límites entre paréntesis son los de Partner Center.
+Idioma principal (el paquete declara `ES-ES` y `EN-US`; español es el idioma por defecto). Copia cada bloque en el campo de Partner Center del mismo nombre (*Ficha de Store → Español*). Los límites entre paréntesis son los de Partner Center.
 
 ## Nombre del producto
 
@@ -41,6 +41,8 @@ PRIVADO POR DISEÑO
 • El historial se guarda cifrado para tu usuario de Windows y se borra automáticamente (24 horas por defecto).
 
 Compatible con Windows App (Windows 365 / Cloud PC). ScreenPivot es una aplicación independiente y no está afiliada a Microsoft.
+
+Disponible en español e inglés; sigue el idioma de Windows o se elige en Ajustes.
 
 ## Novedades de esta versión (máx. 1.500 caracteres)
 

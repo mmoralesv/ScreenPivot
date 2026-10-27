@@ -147,7 +147,7 @@ public sealed class ToastSource : IDisposable
 
         return new HostEvent(
             $"toast:{n.Id}",
-            string.IsNullOrEmpty(app) ? "App desconocida" : app,
+            app, // empty when unknown; shown as HostEvent.DisplayApp
             texts.FirstOrDefault() ?? "",
             string.Join("\n", texts.Skip(1)),
             n.CreationTime,

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -17,6 +18,7 @@ public sealed partial class SettingsPage : Page
     private readonly List<SoundRow> _soundRows = new();
     private AppServices? _services;
     private bool _loadingStartup;
+    private bool _languageChanged;
 
     public SettingsPage()
     {
@@ -48,6 +50,7 @@ public sealed partial class SettingsPage : Page
 
     private void Load(AppSettings s)
     {
+        LanguageBox.SelectedIndex = Math.Max(0, LanguageBox.Items.Cast<ComboBoxItem>().ToList().FindIndex(i => string.Equals((string)i.Tag, s.Language, StringComparison.OrdinalIgnoreCase)));
         PausedToggle.IsOn = s.Paused;
         SoundToggle.IsOn = s.SoundEnabled;
         DigestToggle.IsOn = s.ShowDigestOnReturn;
@@ -62,8 +65,8 @@ public sealed partial class SettingsPage : Page
         MutedBox.Text = string.Join(Environment.NewLine, s.MutedApps);
 
         var monitors = RemoteSessionDetector.GetMonitors();
-        FillMonitors(MonitorBox, monitors, "Automático (donde esté el Cloud PC)", s.MonitorIndex);
-        FillMonitors(PanelMonitorBox, monitors, "Donde hagas clic", s.PanelMonitorIndex);
+        FillMonitors(MonitorBox, monitors, Loc.Get("Monitor_AutoBanner"), s.MonitorIndex);
+        FillMonitors(PanelMonitorBox, monitors, Loc.Get("Monitor_AutoPanel"), s.PanelMonitorIndex);
         PanelEdgeBox.SelectedIndex = (int)s.PanelEdge;
 
         _rules.Clear();
@@ -87,6 +90,7 @@ public sealed partial class SettingsPage : Page
 
     private AppSettings Read() => new()
     {
+        Language = (LanguageBox.SelectedItem as ComboBoxItem)?.Tag as string ?? "",
         Paused = PausedToggle.IsOn,
         SoundEnabled = SoundToggle.IsOn,
         ShowDigestOnReturn = DigestToggle.IsOn,
@@ -116,7 +120,7 @@ public sealed partial class SettingsPage : Page
         box.Items.Clear();
         box.Items.Add(automatic);
         foreach (var m in monitors)
-            box.Items.Add($"Monitor {m.Index + 1}{(m.Primary ? " (principal)" : "")} · {m.Bounds.Width}x{m.Bounds.Height}");
+            box.Items.Add(Loc.Format("Monitor_Item", m.Index + 1, m.Primary ? Loc.Get("Monitor_Primary") : "", m.Bounds.Width, m.Bounds.Height));
         box.SelectedIndex = selected + 1 < box.Items.Count ? selected + 1 : 0;
     }
 
@@ -145,9 +149,9 @@ public sealed partial class SettingsPage : Page
     {
         foreach (var row in _titleRules.Where(r => !r.IsEmpty))
         {
-            if (row.Pattern.Trim().Length == 0) return $"La regla «{row.Name}» no tiene patrón.";
+            if (row.Pattern.Trim().Length == 0) return Loc.Format("Validation_NoPattern", row.Name);
             if (TitleTracker.TryCreate(row.Pattern.Trim(), out var error) is null)
-                return $"El patrón de «{row.Name}» no es válido: {error}";
+                return Loc.Format("Validation_BadPattern", row.Name, error);
         }
         return "";
     }
@@ -162,27 +166,27 @@ public sealed partial class SettingsPage : Page
         var access = _services.Toasts.CheckAccess();
         (AccessBar.Severity, AccessBar.Title, AccessBar.Message, AccessButton.Content, AccessButton.Visibility) = access switch
         {
-            ToastAccess.Allowed => (InfoBarSeverity.Success, "Acceso a notificaciones activo",
-                _services.Toasts.UsingChangeEvent ? "Recibe notificaciones al instante." : "Revisa el Centro de notificaciones cada 2 segundos.",
+            ToastAccess.Allowed => (InfoBarSeverity.Success, Loc.Get("Access_AllowedTitle"),
+                _services.Toasts.UsingChangeEvent ? Loc.Get("Access_AllowedEvent") : Loc.Get("Access_AllowedPolling"),
                 "", Visibility.Collapsed),
-            ToastAccess.Denied => (InfoBarSeverity.Error, "Acceso a notificaciones denegado",
-                "Actívalo en Configuración > Privacidad y seguridad > Notificaciones.", "Abrir Configuración", Visibility.Visible),
-            ToastAccess.Unavailable => (InfoBarSeverity.Error, "Lectura de notificaciones no disponible",
-                "Esta versión de Windows o una directiva de la organización la bloquea.", "", Visibility.Collapsed),
-            _ => (InfoBarSeverity.Warning, "ScreenPivot necesita leer tus notificaciones",
-                "Solo así puede avisarte de lo que pasa en el equipo mientras usas el Cloud PC. Nada sale de este equipo.",
-                "Permitir acceso", Visibility.Visible),
+            ToastAccess.Denied => (InfoBarSeverity.Error, Loc.Get("Access_DeniedTitle"),
+                Loc.Get("Access_DeniedMessage"), Loc.Get("Access_OpenSettings"), Visibility.Visible),
+            ToastAccess.Unavailable => (InfoBarSeverity.Error, Loc.Get("Access_UnavailableTitle"),
+                Loc.Get("Access_UnavailableMessage"), "", Visibility.Collapsed),
+            _ => (InfoBarSeverity.Warning, Loc.Get("Access_NeededTitle"),
+                Loc.Get("Access_NeededMessage"),
+                Loc.Get("Access_Allow"), Visibility.Visible),
         };
 
         var d = _services.Detection;
         var covered = d.Monitors.Where(m => m.Index < d.Coverage.Count && d.Coverage[m.Index] != CoverageKind.None)
-            .Select(m => $"monitor {m.Index + 1} ({(d.Coverage[m.Index] == CoverageKind.FullScreen ? "pantalla completa" : "maximizado")})")
+            .Select(m => Loc.Format(d.Coverage[m.Index] == CoverageKind.FullScreen ? "Detection_MonitorFull" : "Detection_MonitorMaximized", m.Index + 1))
             .ToList();
         DetectionText.Text = d.SessionName.Length == 0
-            ? "No hay una sesión de Windows App / Escritorio remoto abierta."
+            ? Loc.Get("Detection_NoSession")
             : covered.Count == 0
-                ? $"Sesión «{d.SessionName}» abierta, sin cubrir la pantalla."
-                : $"Sesión «{d.SessionName}» cubre: {string.Join(", ", covered)}.";
+                ? Loc.Format("Detection_NotCovering", d.SessionName)
+                : Loc.Format("Detection_Covering", d.SessionName, string.Join(", ", covered));
     }
 
     private async void OnAccessClick(object sender, RoutedEventArgs e)
@@ -211,20 +215,12 @@ public sealed partial class SettingsPage : Page
     {
         if (_services is null) return;
         if (ValidateTitleRules().Length == 0) _services.SaveSettings(Read()); // test with the placement currently on screen
-        TestHint.Text = "Cambia ahora al Cloud PC a pantalla completa…";
-        var timer = DispatcherQueue.CreateTimer();
-        timer.Interval = TimeSpan.FromSeconds(5);
-        timer.IsRepeating = false;
-        timer.Tick += (_, _) =>
-        {
-            _services.ShowTestBanner();
-            TestHint.Text = "";
-        };
-        timer.Start();
+        TestHint.Text = Loc.Get("Settings_TestHintNow");
+        _services.ShowTestBanner(TimeSpan.FromSeconds(5));
     }
 
     private void OnAddRule(object sender, RoutedEventArgs e) =>
-        _rules.Add(new RuleRow { Name = "Nueva regla" });
+        _rules.Add(new RuleRow { Name = Loc.Get("Rule_New") });
 
     private void OnRemoveRule(object sender, RoutedEventArgs e)
     {
@@ -232,23 +228,29 @@ public sealed partial class SettingsPage : Page
     }
 
     private void OnAddTitleRule(object sender, RoutedEventArgs e) =>
-        _titleRules.Add(new TitleRuleRow { Name = "Nueva regla de título" });
+        _titleRules.Add(new TitleRuleRow { Name = Loc.Get("TitleRule_New") });
 
     private void OnRemoveTitleRule(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement { Tag: TitleRuleRow row }) _titleRules.Remove(row);
     }
 
+    private void OnRestart(object sender, RoutedEventArgs e) => App.Current?.Restart();
+
     private void OnSave(object sender, RoutedEventArgs e)
     {
         var error = ValidateTitleRules();
         if (error.Length > 0)
         {
-            SavedText.Text = $"No se guardó. {error}";
+            SavedText.Text = Loc.Format("Save_Failed", error);
             return;
         }
+        var language = _services?.Settings.Language;
         _services?.SaveSettings(Read());
+        // The language only changes after a restart; offer it while the saved choice differs from the running one.
+        if (_services is not null && _services.Settings.Language != language) _languageChanged = true;
+        RestartPanel.Visibility = _languageChanged ? Visibility.Visible : Visibility.Collapsed;
         App.Current?.RepositionPanel(); // a new edge or monitor applies right away
-        SavedText.Text = $"Guardado a las {DateTime.Now:HH:mm:ss}.";
+        SavedText.Text = Loc.Format("Save_Done", DateTime.Now.ToString("T", CultureInfo.CurrentCulture));
     }
 }

@@ -4,7 +4,7 @@
 |---|---|
 | [privacy-policy.md](privacy-policy.md) | Política de privacidad (ES + EN), para alojar en una URL pública |
 | [listing-es.md](listing-es.md) | Textos de la ficha en español (idioma del paquete) |
-| [listing-en.md](listing-en.md) | Textos de la ficha en inglés (opcional; la interfaz está en español) |
+| [listing-en.md](listing-en.md) | Textos de la ficha en inglés (la app está traducida) |
 | `art/BoxArt_*.png` | Logotipo 1:1 de la ficha (2160, 1080 y 300 px), generado por `tools/generate-assets.ps1` |
 
 Marca cada casilla al completarla.
@@ -76,13 +76,13 @@ Marca cada casilla al completarla.
 ## 6. Ficha de Store
 
 - [ ] **Español**: copiar [listing-es.md](listing-es.md) campo por campo.
-- [ ] **Inglés** (opcional): [listing-en.md](listing-en.md). Mantiene el aviso de que la interfaz está en español.
+- [ ] **Inglés**: [listing-en.md](listing-en.md). La app está traducida (es-ES y en-US) y la ficha ya no avisa de "interfaz en español".
 - [ ] Logotipo 1:1: `art/BoxArt_2160x2160.png` (o la de 1080).
 - [ ] **Capturas** (ver abajo): mínimo 1 y hasta 10, PNG de al menos 1366×768.
 
 ### Capturas
 
-Ya generadas en [`screenshots/`](screenshots/), a 1920×1080: el panel y el banner reales en modo demo, sobre un fondo neutro. Se suben en *Store listings → Screenshots → Desktop* de cada idioma, en este orden:
+Ya generadas a 1920×1080 en [`screenshots/es`](screenshots/es/) (ficha en español) y [`screenshots/en`](screenshots/en/) (ficha en inglés): el panel y el banner reales en modo demo, en cada idioma, sobre un fondo neutro. Se suben en *Store listings → Screenshots → Desktop* del idioma correspondiente, en este orden (leyendas en inglés en [listing-en.md](listing-en.md)):
 
 | Archivo | Leyenda (ES) |
 |---|---|
@@ -92,7 +92,7 @@ Ya generadas en [`screenshots/`](screenshots/), a 1920×1080: el panel y el bann
 | `04-apps-sin-notificaciones.png` | Avisos también de apps sin notificaciones: parpadeos y cambios de título. |
 | `05-sonidos.png` | Un sonido para cada prioridad. |
 
-Para regenerarlas a mano:
+Para regenerarlas: `ScreenPivot.exe --demo --lang es-ES` (o `en-US`) y capturar el panel; o a mano:
 
 Usa siempre el **modo demo**, que tiene datos ficticios, va a una carpeta aparte, no lee notificaciones reales y no toca tu historial:
 
@@ -118,13 +118,13 @@ Las leyendas de cada captura están en las fichas. Revisa que no se vea ningún 
 
 - [ ] **Notas para certificación.** Pegar:
 
-  > ScreenPivot shows alerts from local apps while a Remote Desktop (Windows App / Windows 365, or mstsc) session covers the screen in full screen. The interface is in Spanish.
+  > ScreenPivot shows alerts from local apps while a Remote Desktop (Windows App / Windows 365, or mstsc) session covers the screen in full screen. The interface is available in English and Spanish: it follows the Windows display language, can be forced with "--lang en-US", or chosen in Settings > Language (restart from the same page).
   >
-  > Quick test without a remote session: run `screenpivot --demo` from a terminal. It opens the side panel docked to the right edge with fictional sample data, uses a separate data folder and reads no real notifications. The gear icon opens the settings ("Ajustes"); there, "Probar banner en 5 s" shows the alert banner even without a remote session. The panel hides when another app gets focus or with Esc.
+  > Quick test without a remote session: run `screenpivot --demo` from a terminal. It opens the side panel docked to the right edge with fictional sample data, uses a separate data folder and reads no real notifications. The gear icon opens the settings; there, "Test banner in 5 s" ("Probar banner en 5 s") shows the alert banner even without a remote session. The panel hides when another app gets focus or with Esc.
   >
-  > Full test: 1) Launch ScreenPivot; in the panel's settings (gear icon) click "Permitir acceso" and accept the Windows notification-access prompt. 2) Open any Remote Desktop connection in full screen. A small "ScreenPivot · Ir al equipo" pill appears in the bottom-right corner. 3) Trigger a notification on the local machine (e.g. an email, or a message whose text contains "urgente"). A banner appears over the remote session without taking keyboard focus. "Abrir" brings the source app to the front and "↩ Volver al Cloud PC" returns to the session. Clicking the pill opens the side panel over the session. 4) Leave full screen: the panel opens with the summary of what happened.
+  > Full test: 1) Launch ScreenPivot; in the panel's settings (gear icon) click "Allow access" ("Permitir acceso") and accept the Windows notification-access prompt. 2) Open any Remote Desktop connection in full screen. A small "ScreenPivot · Go to this PC" pill appears in the bottom-right corner. 3) Trigger a notification on the local machine (e.g. an email, or a message whose text contains "urgente"). A banner appears over the remote session without taking keyboard focus. "Open" brings the source app to the front and "↩ Back to the Cloud PC" returns to the session. Clicking the pill opens the side panel over the session. 4) Leave full screen: the panel opens with the summary of what happened.
   >
-  > The app runs from the notification area (tray icon). Hiding the panel does not exit; use the tray menu "Salir". All data stays on the device; see the privacy policy.
+  > The app runs from the notification area (tray icon). Hiding the panel does not exit; use the tray menu "Exit". All data stays on the device; see the privacy policy.
 
 - [ ] Enviar y revisar el informe de certificación. Si se rechaza por la política de notificaciones o de privacidad, comprobar que la URL de la política funciona y que la descripción explica claramente que la app lee notificaciones.
 

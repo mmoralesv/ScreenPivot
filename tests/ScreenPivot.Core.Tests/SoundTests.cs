@@ -35,7 +35,7 @@ public sealed class SoundTests : IDisposable
     [InlineData("alias:Notification.IM", "Mensaje instantáneo")]
     [InlineData("alias:Custom.Event", "Custom.Event")]
     [InlineData(@"file:C:\Sonidos\alerta.wav", "Archivo: alerta.wav")]
-    public void Describe(string id, string expected) => Assert.Equal(expected, SoundCatalog.Describe(id));
+    public void Describe(string id, string expected) => Assert.Equal(expected, SoundCatalog.Describe(id, new System.Globalization.CultureInfo("es-ES")));
 
     [Fact]
     public void FileIdsRoundTrip()

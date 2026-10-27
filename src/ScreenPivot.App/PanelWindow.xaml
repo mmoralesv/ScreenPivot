@@ -36,8 +36,7 @@
                 Background="Transparent"
                 BorderThickness="0"
                 Padding="8"
-                ToolTipService.ToolTip="Volver al resumen"
-                AutomationProperties.Name="Volver al resumen">
+                x:Uid="Panel_Back">
                 <FontIcon Glyph="&#xE72B;" FontSize="14" />
             </Button>
             <TextBlock
@@ -54,8 +53,7 @@
                 Background="Transparent"
                 BorderThickness="0"
                 Padding="8"
-                ToolTipService.ToolTip="Ajustes"
-                AutomationProperties.Name="Ajustes">
+                x:Uid="Panel_Settings">
                 <FontIcon Glyph="&#xE713;" FontSize="16" />
             </Button>
             <Button
@@ -64,8 +62,7 @@
                 Background="Transparent"
                 BorderThickness="0"
                 Padding="8"
-                ToolTipService.ToolTip="Ocultar (Esc)"
-                AutomationProperties.Name="Ocultar">
+                x:Uid="Panel_Hide">
                 <FontIcon Glyph="&#xE711;" FontSize="14" />
             </Button>
         </Grid>

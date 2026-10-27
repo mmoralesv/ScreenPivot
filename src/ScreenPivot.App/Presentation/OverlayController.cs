@@ -1,4 +1,5 @@
 using Microsoft.UI.Dispatching;
+using ScreenPivot.App.Services;
 using ScreenPivot.Core.Detection;
 using ScreenPivot.Core.Diagnostics;
 using ScreenPivot.Core.Digest;
@@ -145,12 +146,12 @@ internal sealed class OverlayController : IDisposable
                 _window.ShowPill($"ScreenPivot · {RulesSummarizer.Ticker(_pending)}", _pending.Max(e => e.Priority), 320, monitor, settings.Corner);
                 break;
             case OverlayView.QuickAccess:
-                _window.ShowPill("ScreenPivot · Ir al equipo", Priority.Low, 230, monitor, settings.Corner);
+                _window.ShowPill(Loc.Get("Overlay_QuickAccess"), Priority.Low, 230, monitor, settings.Corner);
                 break;
             case OverlayView.ReturnToRemote:
                 var text = _pending.Count == 0 || settings.Paused
-                    ? "↩ Volver al Cloud PC"
-                    : $"↩ Volver al Cloud PC · {RulesSummarizer.Ticker(_pending)}";
+                    ? Loc.Get("Overlay_Return")
+                    : Loc.Format("Overlay_ReturnWithCount", RulesSummarizer.Ticker(_pending));
                 _window.ShowPill(text, Priority.Normal, _pending.Count == 0 ? 250 : 400, monitor, settings.Corner);
                 break;
             default:

@@ -68,10 +68,10 @@ public sealed partial class DigestPage : Page
         EmptyText.Visibility = summary.Total == 0 ? Visibility.Visible : Visibility.Collapsed;
 
         var pending = hub.Pending().Count;
-        var state = _services.Settings.Paused ? "Avisos en pausa."
-            : hub.IsRemote ? $"Cloud PC a pantalla completa desde las {Format.Time(hub.RemoteSince!.Value)}."
-            : "Trabajando en el equipo.";
-        StatusText.Text = pending == 0 ? state : $"{state} {Format.Count(pending)} sin revisar.";
+        var state = _services.Settings.Paused ? Loc.Get("Status_Paused")
+            : hub.IsRemote ? Loc.Format("Status_Remote", Format.Time(hub.RemoteSince!.Value))
+            : Loc.Get("Status_Host");
+        StatusText.Text = pending == 0 ? state : Loc.Format("Status_Unreviewed", state, Format.Count(pending));
 
         // Footer: both switch buttons, only "back" once the session is minimized, nothing without a session.
         bool hasSession = _services.HasSession;

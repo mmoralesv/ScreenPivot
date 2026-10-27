@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Priority_Ignore" xml:space="preserve"><value>Ignore</value></data>
+  <data name="Priority_Low" xml:space="preserve"><value>Low</value></data>
+  <data name="Priority_Normal" xml:space="preserve"><value>Normal</value></data>
+  <data name="Priority_High" xml:space="preserve"><value>High</value></data>
+  <data name="Priority_Critical" xml:space="preserve"><value>Critical</value></data>
+  <data name="Reason_NoRule" xml:space="preserve"><value>No rule</value></data>
+  <data name="Reason_Muted" xml:space="preserve"><value>Muted app: {0}</value></data>
+  <data name="Reason_Vip" xml:space="preserve"><value>VIP: {0}</value></data>
+  <data name="Reason_Keyword" xml:space="preserve"><value>Keyword: {0}</value></data>
+  <data name="Reason_Rule" xml:space="preserve"><value>Rule: {0}</value></data>
+  <data name="Reason_TitleRule" xml:space="preserve"><value>Title rule: {0}</value></data>
+  <data name="Reason_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Summary_None" xml:space="preserve"><value>No new alerts.</value></data>
+  <data name="Summary_Headline" xml:space="preserve"><value>{0}: {1}.</value></data>
+  <data name="Summary_HeadlineWithParts" xml:space="preserve"><value>{0} ({1}): {2}.</value></data>
+  <data name="Summary_AndMore" xml:space="preserve"><value>{0} and {1} more</value></data>
+  <data name="Count_Alert_One" xml:space="preserve"><value>1 alert</value></data>
+  <data name="Count_Alert_Many" xml:space="preserve"><value>{0} alerts</value></data>
+  <data name="Count_Critical_One" xml:space="preserve"><value>1 critical</value></data>
+  <data name="Count_Critical_Many" xml:space="preserve"><value>{0} critical</value></data>
+  <data name="Count_High_One" xml:space="preserve"><value>1 high</value></data>
+  <data name="Count_High_Many" xml:space="preserve"><value>{0} high</value></data>
+  <data name="Event_FlashBody" xml:space="preserve"><value>Wants your attention (flashing in the taskbar).</value></data>
+  <data name="Event_UnknownApp" xml:space="preserve"><value>Unknown app</value></data>
+  <data name="Rule_TeamsCalls" xml:space="preserve"><value>Teams calls</value></data>
+  <data name="Rule_MeetingStarting" xml:space="preserve"><value>Meeting starting</value></data>
+  <data name="Rule_TeamsMessages" xml:space="preserve"><value>Teams messages</value></data>
+  <data name="Rule_OutlookMail" xml:space="preserve"><value>Outlook mail</value></data>
+  <data name="TitleRule_Build" xml:space="preserve"><value>Build or deployment finished</value></data>
+  <data name="TitleRule_Unread" xml:space="preserve"><value>Unread count in the title</value></data>
+  <data name="Sound_None" xml:space="preserve"><value>None</value></data>
+  <data name="Sound_Notification" xml:space="preserve"><value>Notification</value></data>
+  <data name="Sound_InstantMessage" xml:space="preserve"><value>Instant message</value></data>
+  <data name="Sound_Mail" xml:space="preserve"><value>New mail</value></data>
+  <data name="Sound_Reminder" xml:space="preserve"><value>Reminder</value></data>
+  <data name="Sound_Sms" xml:space="preserve"><value>SMS</value></data>
+  <data name="Sound_Asterisk" xml:space="preserve"><value>Asterisk</value></data>
+  <data name="Sound_Exclamation" xml:space="preserve"><value>Exclamation</value></data>
+  <data name="Sound_CriticalStop" xml:space="preserve"><value>Critical stop</value></data>
+  <data name="Sound_File" xml:space="preserve"><value>File: {0}</value></data>
+</root>

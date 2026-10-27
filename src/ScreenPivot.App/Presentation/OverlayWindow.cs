@@ -1,4 +1,5 @@
 using ScreenPivot.App.Interop;
+using ScreenPivot.App.Services;
 using ScreenPivot.Core.Detection;
 using ScreenPivot.Core.Model;
 using ScreenPivot.Core.Rules;
@@ -79,8 +80,8 @@ internal sealed class OverlayWindow : IDisposable
 
     public void ShowBanner(HostEvent e, Rect monitor, OverlayCorner corner)
     {
-        _line1 = string.IsNullOrEmpty(e.Title) ? e.App : $"{e.App} · {e.Title}";
-        _line2 = FirstLine(e.Body);
+        _line1 = string.IsNullOrEmpty(e.Title) ? e.DisplayApp : $"{e.DisplayApp} · {e.Title}";
+        _line2 = FirstLine(e.DisplayBody);
         if (_line2.Length == 0) _line2 = e.Reason;
         _accent = e.Priority;
         Show(OverlayMode.Banner, BannerWidth, BannerHeight, monitor, corner);
@@ -185,7 +186,7 @@ internal sealed class OverlayWindow : IDisposable
             NativeUi.DrawText(hdc, _line1, -1, ref upper, format);
 
             NativeUi.SetTextColor(hdc, Foreground);
-            NativeUi.DrawText(hdc, "Abrir", -1, ref open, centered);
+            NativeUi.DrawText(hdc, Loc.Get("Overlay_Open"), -1, ref open, centered);
             NativeUi.DrawText(hdc, "✕", -1, ref close, centered);
 
             NativeUi.SelectObject(hdc, _bodyFont);

@@ -31,6 +31,7 @@ public sealed class AppServices : IDisposable
     private readonly OverlayController _overlay;
     private readonly WindowActivitySource _windowActivity;
     private TrayIcon? _tray;
+    private DispatcherQueueTimer? _testBannerTimer;
     /// <summary>Session window we minimized to show a host app; the "back" pill stays until it is restored.</summary>
     private IntPtr _parked;
 
@@ -158,14 +159,28 @@ public sealed class AppServices : IDisposable
         Refresh();
     }
 
+    /// <summary>Shows a sample banner after <paramref name="delay"/> (time to switch to the Cloud PC).</summary>
+    public void ShowTestBanner(TimeSpan delay)
+    {
+        // A field, not a local: an unreferenced DispatcherQueueTimer can be collected before it fires.
+        _testBannerTimer ??= _dispatcher.CreateTimer();
+        _testBannerTimer.Stop();
+        _testBannerTimer.Interval = delay;
+        _testBannerTimer.IsRepeating = false;
+        _testBannerTimer.Tick -= OnTestBannerTick;
+        _testBannerTimer.Tick += OnTestBannerTick;
+        _testBannerTimer.Start();
+    }
+
+    private void OnTestBannerTick(DispatcherQueueTimer sender, object args) => ShowTestBanner();
+
     public void ShowTestBanner()
     {
         var sample = IsDemo
             // The demo shows a realistic alert from the sample session (Store screenshots, certification testers).
-            ? new HostEvent("test", "Microsoft Teams", "Laura Gómez te está llamando", "Llamada entrante de Teams",
-                DateTimeOffset.Now, EventOrigin.Test) { Priority = Priority.Critical, Reason = "Regla: Llamadas de Teams" }
-            : new HostEvent("test", "ScreenPivot", "Banner de prueba", "Haz clic para cerrarlo. Debe verse encima del Cloud PC.",
-                DateTimeOffset.Now, EventOrigin.Test) { Priority = Priority.Critical, Reason = "Prueba" };
+            ? DemoData.CallBanner(DateTimeOffset.Now)
+            : new HostEvent("test", "ScreenPivot", Loc.Get("Test_BannerTitle"), Loc.Get("Test_BannerBody"),
+                DateTimeOffset.Now, EventOrigin.Test) { Priority = Priority.Critical, ReasonKind = ReasonKind.Test };
         _overlay.ShowTest(sample);
     }
 
@@ -185,8 +200,8 @@ public sealed class AppServices : IDisposable
 
         Notice = result switch
         {
-            SwitchResult.NotFound => $"No encontré una ventana de {e.App} ni pude abrirla. Ábrela desde el equipo.",
-            SwitchResult.FocusDenied => $"Windows no permitió traer {e.App} al frente. Búscala en la barra de tareas.",
+            SwitchResult.NotFound => Loc.Format("Notice_NotFound", e.DisplayApp),
+            SwitchResult.FocusDenied => Loc.Format("Notice_FocusDenied", e.DisplayApp),
             _ => "",
         };
         if (Notice.Length > 0) OpenRequested?.Invoke(this, AppPage.Digest);
@@ -199,7 +214,7 @@ public sealed class AppServices : IDisposable
         var target = WindowSwitcher.IsAlive(_parked) ? _parked : WindowSwitcher.FindSessionWindow();
         _parked = IntPtr.Zero;
         var ok = WindowSwitcher.Focus(target);
-        Notice = ok ? "" : "No encontré la sesión del Cloud PC o Windows no permitió activarla.";
+        Notice = ok ? "" : Loc.Get("Notice_ReturnFailed");
         Refresh();
         return ok;
     }
@@ -214,11 +229,14 @@ public sealed class AppServices : IDisposable
     /// <summary>Replaces the demo history with a fictional finished remote session.</summary>
     private void SeedDemo()
     {
-        if (Settings.VipSenders.Count == 0)
+        // Fresh sample settings each run, so default rule names follow the language of this run (screenshots).
+        Settings = new AppSettings
         {
-            Settings.VipSenders.Add("Laura Gómez"); // fictional, matches DemoData
-            _settingsStore.Save(Settings);
-        }
+            OnboardingCompleted = true,
+            Language = Settings.Language,
+            VipSenders = { DemoData.VipSender }, // fictional
+        };
+        _settingsStore.Save(Settings);
         Digest.Clear();
         var now = DateTimeOffset.Now;
         var events = DemoData.Session(now).Select(e => e with { ReceivedWhileRemote = true }).ToList();
@@ -310,7 +328,7 @@ public sealed class AppServices : IDisposable
         if (_tray is null) return;
         _tray.HasSession = HasSession;
         var pending = Hub.Pending();
-        var state = Settings.Paused ? "en pausa" : Hub.IsRemote ? "Cloud PC a pantalla completa" : "en el equipo";
+        var state = Loc.Get(Settings.Paused ? "Tray_StatePaused" : Hub.IsRemote ? "Tray_StateRemote" : "Tray_StateHost");
         _tray.SetTooltip(pending.Count == 0 ? $"ScreenPivot · {state}" : $"ScreenPivot · {RulesSummarizer.Ticker(pending)}");
     }
 

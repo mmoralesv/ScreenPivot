@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using ScreenPivot.App.Interop;
+using ScreenPivot.App.Services;
 
 namespace ScreenPivot.App.Presentation;
 
@@ -103,16 +104,16 @@ internal sealed class TrayIcon : IDisposable
     private void ShowMenu()
     {
         var menu = NativeUi.CreatePopupMenu();
-        NativeUi.AppendMenu(menu, NativeUi.MF_STRING, (UIntPtr)TrayCommand.OpenDigest, "Abrir resumen");
-        NativeUi.AppendMenu(menu, NativeUi.MF_STRING, (UIntPtr)TrayCommand.OpenSettings, "Ajustes");
+        NativeUi.AppendMenu(menu, NativeUi.MF_STRING, (UIntPtr)TrayCommand.OpenDigest, Loc.Get("Tray_OpenDigest"));
+        NativeUi.AppendMenu(menu, NativeUi.MF_STRING, (UIntPtr)TrayCommand.OpenSettings, Loc.Get("Tray_Settings"));
         NativeUi.AppendMenu(menu, NativeUi.MF_SEPARATOR, UIntPtr.Zero, null);
         uint session = HasSession ? NativeUi.MF_STRING : NativeUi.MF_STRING | NativeUi.MF_GRAYED;
-        NativeUi.AppendMenu(menu, session, (UIntPtr)TrayCommand.ReturnToRemote, "Volver al Cloud PC");
-        NativeUi.AppendMenu(menu, session, (UIntPtr)TrayCommand.MinimizeRemote, "Minimizar Cloud PC");
+        NativeUi.AppendMenu(menu, session, (UIntPtr)TrayCommand.ReturnToRemote, Loc.Get("Tray_Return"));
+        NativeUi.AppendMenu(menu, session, (UIntPtr)TrayCommand.MinimizeRemote, Loc.Get("Tray_Minimize"));
         NativeUi.AppendMenu(menu, NativeUi.MF_SEPARATOR, UIntPtr.Zero, null);
-        NativeUi.AppendMenu(menu, NativeUi.MF_STRING | (Paused ? NativeUi.MF_CHECKED : 0), (UIntPtr)TrayCommand.TogglePause, "Pausar avisos");
+        NativeUi.AppendMenu(menu, NativeUi.MF_STRING | (Paused ? NativeUi.MF_CHECKED : 0), (UIntPtr)TrayCommand.TogglePause, Loc.Get("Tray_Pause"));
         NativeUi.AppendMenu(menu, NativeUi.MF_SEPARATOR, UIntPtr.Zero, null);
-        NativeUi.AppendMenu(menu, NativeUi.MF_STRING, (UIntPtr)TrayCommand.Exit, "Salir");
+        NativeUi.AppendMenu(menu, NativeUi.MF_STRING, (UIntPtr)TrayCommand.Exit, Loc.Get("Tray_Exit"));
 
         NativeUi.GetCursorPos(out var pt);
         NativeUi.SetForegroundWindow(_hwnd); // required for the menu to close when clicking elsewhere

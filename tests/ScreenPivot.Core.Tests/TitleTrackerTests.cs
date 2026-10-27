@@ -107,7 +107,7 @@ public class SourcePriorityTests
     {
         var decision = PriorityEngine.Evaluate(TitleEvent("Outlook", Priority.High), new AppSettings());
         Assert.Equal(Priority.High, decision.Priority);
-        Assert.StartsWith("Regla de título", decision.Reason);
+        Assert.Equal(ReasonKind.TitleRule, decision.Kind);
     }
 
     [Fact]

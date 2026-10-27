@@ -1,3 +1,5 @@
+using System.Globalization;
+using ScreenPivot.Core.Localization;
 using ScreenPivot.Core.Digest;
 using ScreenPivot.Core.Model;
 using ScreenPivot.Core.Rules;
@@ -8,6 +10,8 @@ namespace ScreenPivot.Core.Tests;
 
 public class EventHubTests
 {
+    private static readonly CultureInfo Es = new("es-ES"), En = new("en-US");
+
     private static readonly DateTimeOffset T0 = new(2026, 10, 22, 9, 0, 0, TimeSpan.Zero);
 
     private readonly AppSettings _settings = new();
@@ -84,7 +88,8 @@ public class EventHubTests
         _hub.Accepted += (_, e) => raised = e;
         _hub.Ingest(Event("Microsoft Teams", "Luis te está llamando", T0));
         Assert.Equal(Priority.Critical, raised!.Priority);
-        Assert.StartsWith("Regla:", raised.Reason);
+        Assert.Equal(ReasonKind.Rule, raised.ReasonKind);
+        Assert.Equal(CoreText.Get("Rule_TeamsCalls"), raised.ReasonDetail); // default rule names follow the UI language
     }
 
     [Fact]
@@ -96,19 +101,22 @@ public class EventHubTests
         _hub.Ingest(Event("Outlook", "c", T0.AddSeconds(3)));
         _hub.Ingest(Event("Microsoft Teams", "Luis te está llamando", T0.AddSeconds(4)));
 
-        var summary = RulesSummarizer.Summarize(_hub.ExitRemote());
+        var session = _hub.ExitRemote();
+        var summary = RulesSummarizer.Summarize(session, Es);
         Assert.Equal(4, summary.Total);
         Assert.Equal("Microsoft Teams", summary.Groups[0].App);
         Assert.Equal(Priority.Critical, summary.Groups[0].MaxPriority);
         Assert.Equal(3, summary.Groups[1].Count);
         Assert.Equal("4 avisos (1 crítico): Microsoft Teams (1), Outlook (3).", summary.Headline);
+        Assert.Equal("4 alerts (1 critical): Microsoft Teams (1), Outlook (3).", RulesSummarizer.Summarize(session, En).Headline);
     }
 
     [Fact]
     public void LogNeverContainsVipNames()
     {
-        Assert.Equal("VIP", EventHub.LogReason("VIP: Ana Pérez"));
-        Assert.Equal("Regla: Mensajes de Teams", EventHub.LogReason("Regla: Mensajes de Teams"));
+        Assert.Equal("Vip", EventHub.LogReason(ReasonKind.Vip, "Ana Pérez"));
+        Assert.Equal("Rule: Mensajes de Teams", EventHub.LogReason(ReasonKind.Rule, "Mensajes de Teams"));
+        Assert.Equal("NoRule", EventHub.LogReason(ReasonKind.NoRule, ""));
     }
 
     [Fact]
@@ -120,7 +128,8 @@ public class EventHubTests
             Event("b", "y", T0) with { Priority = Priority.High },
             Event("c", "z", T0) with { Priority = Priority.Normal },
         };
-        Assert.Equal("3 avisos · 1 crítico · 1 alto", RulesSummarizer.Ticker(events));
+        Assert.Equal("3 avisos · 1 crítico · 1 alto", RulesSummarizer.Ticker(events, Es));
+        Assert.Equal("3 alerts · 1 critical · 1 high", RulesSummarizer.Ticker(events, En));
         Assert.Equal("", RulesSummarizer.Ticker(Array.Empty<HostEvent>()));
     }
 }

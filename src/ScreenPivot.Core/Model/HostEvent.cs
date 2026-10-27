@@ -1,3 +1,6 @@
+using System.Text.Json.Serialization;
+using ScreenPivot.Core.Localization;
+
 namespace ScreenPivot.Core.Model;
 
 public enum Priority
@@ -17,6 +20,19 @@ public enum EventOrigin
     Test,
 }
 
+/// <summary>Why an event got its priority. Stored as data so the text follows the UI language when shown.</summary>
+public enum ReasonKind
+{
+    None,
+    NoRule,
+    Muted,
+    Vip,
+    Keyword,
+    Rule,
+    TitleRule,
+    Test,
+}
+
 /// <summary>Something that happened in an app on the host, normalized from any source.</summary>
 public sealed record HostEvent(
     string Id,
@@ -28,8 +44,22 @@ public sealed record HostEvent(
 {
     public Priority Priority { get; init; } = Priority.Normal;
 
-    /// <summary>Why the priority engine chose <see cref="Priority"/>, shown to the user.</summary>
-    public string Reason { get; init; } = "";
+    public ReasonKind ReasonKind { get; init; }
+
+    /// <summary>The VIP, keyword or rule name that matched; empty for other kinds.</summary>
+    public string ReasonDetail { get; init; } = "";
+
+    /// <summary>Why the priority engine chose <see cref="Priority"/>, in the current UI language.</summary>
+    [JsonIgnore]
+    public string Reason => CoreText.Reason(ReasonKind, ReasonDetail);
+
+    /// <summary><see cref="App"/>, or a localized "unknown app" when the source could not name it.</summary>
+    [JsonIgnore]
+    public string DisplayApp => App.Length > 0 ? App : CoreText.Get("Event_UnknownApp");
+
+    /// <summary><see cref="Body"/>, or the localized flash explanation (flashes carry no text of their own).</summary>
+    [JsonIgnore]
+    public string DisplayBody => Body.Length == 0 && Origin == EventOrigin.WindowFlash ? CoreText.Get("Event_FlashBody") : Body;
 
     public bool ReceivedWhileRemote { get; init; }
 

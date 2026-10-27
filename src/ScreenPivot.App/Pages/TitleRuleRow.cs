@@ -6,7 +6,7 @@ namespace ScreenPivot.App.Pages;
 /// <summary>Editable row for a <see cref="TitleRule"/>.</summary>
 public sealed class TitleRuleRow
 {
-    public static IReadOnlyList<string> PriorityNames { get; } = Format.PriorityNames;
+    public static IReadOnlyList<string> PriorityNames => Format.PriorityNames;
 
     public bool Enabled { get; set; } = true;
     public string Name { get; set; } = "";

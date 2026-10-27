@@ -1,3 +1,5 @@
+using System.Globalization;
+using ScreenPivot.Core.Localization;
 using ScreenPivot.Core.Model;
 
 namespace ScreenPivot.Core.Rules;
@@ -14,18 +16,22 @@ public static class SoundCatalog
     public const string AliasPrefix = "alias:";
     public const string FilePrefix = "file:";
 
-    public static readonly IReadOnlyList<SoundChoice> Builtin = new SoundChoice[]
+    private static readonly (string Id, string Key)[] BuiltinKeys =
     {
-        new(None, "Ninguno"),
-        new("alias:Notification.Default", "Notificación"),
-        new("alias:Notification.IM", "Mensaje instantáneo"),
-        new("alias:Notification.Mail", "Correo nuevo"),
-        new("alias:Notification.Reminder", "Recordatorio"),
-        new("alias:Notification.SMS", "SMS"),
-        new("alias:SystemAsterisk", "Asterisco"),
-        new("alias:SystemExclamation", "Exclamación"),
-        new("alias:SystemHand", "Error crítico"),
+        (None, "Sound_None"),
+        ("alias:Notification.Default", "Sound_Notification"),
+        ("alias:Notification.IM", "Sound_InstantMessage"),
+        ("alias:Notification.Mail", "Sound_Mail"),
+        ("alias:Notification.Reminder", "Sound_Reminder"),
+        ("alias:Notification.SMS", "Sound_Sms"),
+        ("alias:SystemAsterisk", "Sound_Asterisk"),
+        ("alias:SystemExclamation", "Sound_Exclamation"),
+        ("alias:SystemHand", "Sound_CriticalStop"),
     };
+
+    /// <summary>Built-in choices with names in the given (default: current UI) language.</summary>
+    public static IReadOnlyList<SoundChoice> Builtin(CultureInfo? culture = null) =>
+        BuiltinKeys.Select(b => new SoundChoice(b.Id, CoreText.Get(b.Key, culture))).ToList();
 
     public static bool IsFile(string id) => id.StartsWith(FilePrefix, StringComparison.OrdinalIgnoreCase);
 
@@ -37,11 +43,11 @@ public static class SoundCatalog
     public static string Target(string id) =>
         IsFile(id) ? id[FilePrefix.Length..] : IsAlias(id) ? id[AliasPrefix.Length..] : "";
 
-    public static string Describe(string id)
+    public static string Describe(string id, CultureInfo? culture = null)
     {
-        if (IsFile(id)) return $"Archivo: {Path.GetFileName(Target(id))}";
-        return Builtin.FirstOrDefault(c => string.Equals(c.Id, id, StringComparison.OrdinalIgnoreCase))?.Name
-               ?? (IsAlias(id) ? Target(id) : "Ninguno");
+        if (IsFile(id)) return CoreText.Format("Sound_File", culture, Path.GetFileName(Target(id)));
+        return Builtin(culture).FirstOrDefault(c => string.Equals(c.Id, id, StringComparison.OrdinalIgnoreCase))?.Name
+               ?? (IsAlias(id) ? Target(id) : CoreText.Get("Sound_None", culture));
     }
 }
 

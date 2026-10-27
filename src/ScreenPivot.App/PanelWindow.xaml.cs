@@ -152,7 +152,7 @@ public sealed partial class PanelWindow : Window
         bool settings = e.SourcePageType == typeof(SettingsPage);
         BackButton.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
         SettingsButton.Visibility = settings ? Visibility.Collapsed : Visibility.Visible;
-        TitleText.Text = settings ? "Ajustes" : "ScreenPivot";
+        TitleText.Text = settings ? Loc.Get("Panel_SettingsTitle") : "ScreenPivot";
     }
 
     private void OnSettings(object sender, RoutedEventArgs e) => Navigate(AppPage.Settings);

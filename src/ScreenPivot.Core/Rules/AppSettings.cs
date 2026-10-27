@@ -1,3 +1,4 @@
+using ScreenPivot.Core.Localization;
 using ScreenPivot.Core.Model;
 
 namespace ScreenPivot.Core.Rules;
@@ -90,6 +91,9 @@ public sealed class AppSettings
     /// <summary>Treat a maximized (taskbar still visible) remote window as remote mode, not only full screen.</summary>
     public bool IncludeMaximized { get; set; }
 
+    /// <summary>UI language ("es-ES", "en-US"); empty follows the Windows display language. Applied at startup.</summary>
+    public string Language { get; set; } = "";
+
     public PanelEdge PanelEdge { get; set; } = PanelEdge.Right;
 
     /// <summary>Monitor index for the panel; -1 opens it on the monitor under the cursor.</summary>
@@ -115,23 +119,24 @@ public sealed class AppSettings
 
     public bool OnboardingCompleted { get; set; }
 
+    /// <summary>Rule names follow the UI language at the time they are created; after that they are user data.</summary>
     public static List<PriorityRule> DefaultRules() => new()
     {
-        new() { Name = "Llamadas de Teams", App = "Teams", Keywords = { "llamada", "llamando", "calling", "call from", "incoming call" }, Priority = Priority.Critical },
-        new() { Name = "Reunión por empezar", Keywords = { "comienza ahora", "starting now", "starts in", "comienza en" }, Priority = Priority.High },
-        new() { Name = "Mensajes de Teams", App = "Teams", Priority = Priority.High },
-        new() { Name = "Correo de Outlook", App = "Outlook", Priority = Priority.Normal },
+        new() { Name = CoreText.Get("Rule_TeamsCalls"), App = "Teams", Keywords = { "llamada", "llamando", "calling", "call from", "incoming call" }, Priority = Priority.Critical },
+        new() { Name = CoreText.Get("Rule_MeetingStarting"), Keywords = { "comienza ahora", "starting now", "starts in", "comienza en" }, Priority = Priority.High },
+        new() { Name = CoreText.Get("Rule_TeamsMessages"), App = "Teams", Priority = Priority.High },
+        new() { Name = CoreText.Get("Rule_OutlookMail"), App = "Outlook", Priority = Priority.Normal },
     };
 
     public static List<TitleRule> DefaultTitleRules() => new()
     {
         new()
         {
-            Name = "Compilación o despliegue terminado",
+            Name = CoreText.Get("TitleRule_Build"),
             Pattern = @"\b(build|compilación|pipeline|deploy|despliegue)\b.*\b(succeeded|failed|completed|correcta|fallida|falló|terminad[oa])\b",
             Priority = Priority.High,
         },
         // Off by default: apps that already send notifications would be reported twice.
-        new() { Name = "Mensajes sin leer en el título", Pattern = @"^\((\d+)\)", Priority = Priority.Normal, Enabled = false },
+        new() { Name = CoreText.Get("TitleRule_Unread"), Pattern = @"^\((\d+)\)", Priority = Priority.Normal, Enabled = false },
     };
 }

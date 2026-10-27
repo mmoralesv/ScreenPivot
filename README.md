@@ -54,6 +54,12 @@ Avisa de lo que pasa en las apps del equipo (host) mientras trabajas en un Cloud
 7. **Resumen**: al salir del Cloud PC se abre agrupado por app. El historial se guarda cifrado con DPAPI (usuario actual) y caduca según la retención (24 h por defecto). Si fue ScreenPivot quien minimizó la sesión, no se abre.
 8. **Bandeja**: abrir resumen, ajustes, volver al Cloud PC o minimizarlo, pausar, salir. Instancia única.
 9. **Diagnóstico**: `%LOCALAPPDATA%\ScreenPivot\diagnostics.log` registra cambios de modo remoto y decisiones (origen, app, prioridad, motivo). Nunca registra el título ni el texto de las notificaciones.
+10. **Idiomas: español e inglés.**
+    - **Interfaz:** `src/ScreenPivot.App/Strings/{es-ES,en-US}/Resources.resw`. El XAML usa `x:Uid` y el código, `Loc.Get` / `Loc.Format`.
+    - **Core:** `src/ScreenPivot.Core/Resources/Strings{,.en}.resx` con `CoreText`, para resúmenes, motivos, prioridades, reglas y sonidos por defecto.
+    - **Idioma usado:** el de Windows, salvo que se elija en *Ajustes → Idioma* (se aplica al reiniciar desde la misma página) o se fuerce con `--lang en-US`. Otros idiomas usan español.
+    - **Historial y ajustes:** se guardan datos, no textos traducidos. El motivo se guarda como `ReasonKind` + detalle, y el cuerpo de un parpadeo o el nombre de una app desconocida se componen al mostrarlos. Los nombres de las reglas por defecto toman el idioma del momento en que se crean y después son datos del usuario.
+    - **Para añadir un texto:** crear la misma clave en los dos `.resw` (o `.resx`). `LocalizationTests` falla si a un idioma le falta una clave, si queda vacía o si no coinciden los `{0}`.
 
 ## Estructura
 
@@ -113,7 +119,8 @@ Sirve para las capturas de la Store y para los certificadores sin Cloud PC.
 
 ## Estado verificado (2026-10-22)
 
-- ✅ 79 tests de Core.
+- ✅ 90 tests de Core, incluida la paridad es/en de los recursos de app y Core.
+- ✅ Interfaz completa en inglés y en español verificada con capturas de la demo (`--demo --lang en-US|es-ES`). El paquete MSIX declara ES-ES y EN-US.
 - ✅ Panel lateral validado por el usuario sobre el Cloud PC: se abre con el primer clic en *Ir al equipo* (en el monitor del cursor).
 - ✅ Panel lateral en modo demo:
   - se acopla al borde derecho del monitor principal (525 px a escala 125 %);

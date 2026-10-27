@@ -20,8 +20,8 @@
             <TextBlock x:Name="StatusText" Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
             <Grid>
                 <SelectorBar x:Name="Filter" SelectionChanged="OnFilterChanged" Margin="-12,0,0,0">
-                    <SelectorBarItem x:Name="SessionFilter" Text="Sesión remota" IsSelected="True" />
-                    <SelectorBarItem x:Name="AllFilter" Text="Historial" />
+                    <SelectorBarItem x:Name="SessionFilter" x:Uid="Digest_SessionFilter" IsSelected="True" />
+                    <SelectorBarItem x:Name="AllFilter" x:Uid="Digest_HistoryFilter" />
                 </SelectorBar>
                 <Button
                     HorizontalAlignment="Right"
@@ -29,17 +29,16 @@
                     Background="Transparent"
                     BorderThickness="0"
                     Padding="8"
-                    ToolTipService.ToolTip="Más acciones"
-                    AutomationProperties.Name="Más acciones">
+                    x:Uid="Digest_MoreActions">
                     <FontIcon Glyph="&#xE712;" FontSize="16" />
                     <Button.Flyout>
                         <MenuFlyout Placement="BottomEdgeAlignedRight">
-                            <MenuFlyoutItem Text="Marcar como revisado" Click="OnMarkReviewed">
+                            <MenuFlyoutItem x:Uid="Digest_MarkReviewed" Click="OnMarkReviewed">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE73E;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Borrar historial" Click="OnClear">
+                            <MenuFlyoutItem x:Uid="Digest_ClearHistory" Click="OnClear">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE74D;" />
                                 </MenuFlyoutItem.Icon>
@@ -83,21 +82,21 @@
                                     <TextBlock Text="{x:Bind App}" Style="{StaticResource BodyStrongTextBlockStyle}" TextTrimming="CharacterEllipsis" />
                                     <TextBlock Text="{x:Bind local:Format.Count(Count)}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                 </StackPanel>
-                                <Button Grid.Column="2" Content="Abrir" Padding="10,3" Click="OnOpenApp" Tag="{x:Bind}" />
+                                <Button Grid.Column="2" x:Uid="Digest_Open" Padding="10,3" Click="OnOpenApp" Tag="{x:Bind}" />
                             </Grid>
                             <ItemsControl ItemsSource="{x:Bind Latest}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="model:HostEvent">
                                         <Grid ColumnSpacing="10" Margin="0,3">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="44" />
+                                                <ColumnDefinition Width="58" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="{x:Bind local:Format.Time(Timestamp)}" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                             <StackPanel Grid.Column="1">
                                                 <TextBlock Text="{x:Bind Title}" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" Style="{StaticResource BodyStrongTextBlockStyle}" />
-                                                <TextBlock Text="{x:Bind Body}" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"
-                                                           Visibility="{x:Bind local:Format.VisibleIfText(Body)}" />
+                                                <TextBlock Text="{x:Bind DisplayBody}" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"
+                                                           Visibility="{x:Bind local:Format.VisibleIfText(DisplayBody)}" />
                                                 <TextBlock Text="{x:Bind Reason}" FontSize="11" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
                                             </StackPanel>
                                         </Grid>
@@ -117,7 +116,7 @@
             Visibility="Collapsed"
             TextWrapping="Wrap"
             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-            Text="Aquí aparecerá lo que llegue al equipo mientras trabajas en el Cloud PC." />
+            x:Uid="Digest_Empty" />
 
         <Grid
             x:Name="Footer"
@@ -131,8 +130,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="MinimizeButton" Content="Minimizar Cloud PC" HorizontalAlignment="Stretch" Click="OnMinimizeRemote" />
-            <Button x:Name="ReturnButton" Grid.Column="1" Content="↩ Volver al Cloud PC" HorizontalAlignment="Stretch"
+            <Button x:Name="MinimizeButton" x:Uid="Digest_MinimizeRemote" HorizontalAlignment="Stretch" Click="OnMinimizeRemote" />
+            <Button x:Name="ReturnButton" Grid.Column="1" x:Uid="Digest_ReturnToRemote" HorizontalAlignment="Stretch"
                     Style="{StaticResource AccentButtonStyle}" Click="OnReturnToRemote" />
         </Grid>
     </Grid>

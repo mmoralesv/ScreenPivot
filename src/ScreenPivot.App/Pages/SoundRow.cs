@@ -12,7 +12,7 @@ namespace ScreenPivot.App.Pages;
 /// </summary>
 internal sealed class SoundRow
 {
-    private const string PickFileLabel = "Elegir archivo WAV…";
+    private static readonly string PickFileLabel = Loc.Get("Sound_PickFile");
 
     private readonly Func<Task<string?>> _pickFile;
     private readonly Action<string> _report;
@@ -27,7 +27,7 @@ internal sealed class SoundRow
         _pickFile = pickFile;
         _report = report;
 
-        var test = new Button { Content = "Probar" };
+        var test = new Button { Content = Loc.Get("Sound_Test") };
         test.Click += (_, _) => Test();
         _box.SelectionChanged += OnSelectionChanged;
 
@@ -58,7 +58,7 @@ internal sealed class SoundRow
         _updating = true;
         _box.Items.Clear();
         _ids.Clear();
-        foreach (var choice in SoundCatalog.Builtin) Add(choice.Id, choice.Name);
+        foreach (var choice in SoundCatalog.Builtin()) Add(choice.Id, choice.Name);
         if (SoundCatalog.IsFile(Id)) Add(Id, SoundCatalog.Describe(Id));
         else if (!_ids.Contains(Id)) Add(Id, SoundCatalog.Describe(Id)); // alias set by hand in settings.json
         _box.Items.Add(PickFileLabel);
@@ -91,11 +91,11 @@ internal sealed class SoundRow
     {
         if (Id.Length == 0)
         {
-            _report($"{Format.PriorityLabel(Priority)}: sin sonido.");
+            _report(Loc.Format("Sound_Silent", Format.PriorityLabel(Priority)));
             return;
         }
         _report(SoundPlayer.Play(Id)
-            ? $"{Format.PriorityLabel(Priority)}: {SoundCatalog.Describe(Id)}."
-            : $"No se pudo reproducir «{SoundCatalog.Describe(Id)}». Puede que tu esquema de sonido de Windows no tenga uno asignado o que el archivo ya no exista.");
+            ? Loc.Format("Sound_Playing", Format.PriorityLabel(Priority), SoundCatalog.Describe(Id))
+            : Loc.Format("Sound_Failed", SoundCatalog.Describe(Id)));
     }
 }

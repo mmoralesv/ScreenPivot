@@ -111,8 +111,8 @@ public sealed class WindowActivitySource : IDisposable
         if (_lastFlash.TryGetValue(hwnd, out var last) && now - last < FlashCooldown) return;
         _lastFlash[hwnd] = now;
 
-        Raise(new HostEvent($"flash:{hwnd}:{now.Ticks}", AppName(hwnd), Win32.WindowText(hwnd),
-            "Pide tu atención (parpadea en la barra de tareas).", now, EventOrigin.WindowFlash)
+        // No body: the explanation is localized when shown (HostEvent.DisplayBody).
+        Raise(new HostEvent($"flash:{hwnd}:{now.Ticks}", AppName(hwnd), Win32.WindowText(hwnd), "", now, EventOrigin.WindowFlash)
         {
             WindowHandle = hwnd,
         });
