@@ -7,6 +7,9 @@ on:
   push:
     branches: ['feature/**', 'fix/**']
   workflow_call:
+  # Promote to main starts it on the promote/N branch: PRs opened with GITHUB_TOKEN do not trigger pull_request,
+  # and the build-test check on that commit is what the main ruleset requires.
+  workflow_dispatch:
 
 permissions:
   contents: read

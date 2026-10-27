@@ -16,6 +16,7 @@ on:
         required: false
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -97,3 +98,4 @@ jobs:
           Al fusionar (con **merge commit**, para conservar cada cherry-pick) se ejecuta **Release**: build de producción y subida a Partner Center.
           "@
           gh pr create --base main --head $env:BRANCH --title $title --body $body
+          gh workflow run ci.yml --ref $env:BRANCH

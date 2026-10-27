@@ -66,11 +66,13 @@ Un commit de merge (no squash) se aplica con `git cherry-pick -x -m 1 <sha>`.
 
 ### En GitHub
 
-- [ ] *Settings → Actions → General → Workflow permissions*: marcar **Allow GitHub Actions to create and approve pull requests** (lo necesita *Promote to main*).
-- [ ] *Settings → General*: rama por defecto **`develop`**, para que los PR nuevos apunten ahí.
-- [ ] *Settings → Rules → Rulesets* (recomendado):
-  - `develop`: PR obligatorio, check **CI / build-test** obligatorio, solo *Squash merge*.
-  - `main`: PR obligatorio, check **CI / build-test** obligatorio, sin push directo.
+- [x] *Settings → Actions → General → Workflow permissions*: **Allow GitHub Actions to create and approve pull requests** (lo necesita *Promote to main*).
+- [x] *Settings → General*: rama por defecto **`develop`**, para que los PR nuevos apunten ahí.
+- [x] *Settings → Rules → Rulesets*:
+  - **develop**: sin push directo ni borrado; PR obligatorio con el check **build-test** en verde; solo *Squash merge*.
+  - **main**: igual, pero solo *Merge commit*, para conservar cada cherry-pick.
+  - En los dos, los administradores pueden saltarse las reglas **solo dentro de un PR** (por ejemplo, para fusionar si CI está caído).
+  - El PR que abre *Promote to main* no lanza CI por sí solo (los PR creados con el token de Actions no disparan workflows); por eso el workflow ejecuta CI en la rama `promote/N` después de abrirlo.
 - [ ] *Settings → Environments → microsoft-store* (se crea en la primera ejecución de Release): añadir **Required reviewers** si quieres aprobar cada subida a Partner Center.
 
 ### En Partner Center (para la subida automática)
