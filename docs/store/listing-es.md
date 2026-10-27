@@ -40,7 +40,7 @@ PRIVADO POR DISEÑO
 • Todo ocurre en tu equipo: sin cuenta, sin servidores, sin publicidad ni telemetría.
 • El historial se guarda cifrado para tu usuario de Windows y se borra automáticamente (24 horas por defecto).
 
-Compatible con Windows App (Windows 365 / Cloud PC) y otros clientes de Escritorio remoto de Windows. ScreenPivot es una aplicación independiente y no está afiliada a Microsoft.
+Compatible con Windows App (Windows 365 / Cloud PC). ScreenPivot es una aplicación independiente y no está afiliada a Microsoft.
 
 ## Novedades de esta versión (máx. 1.500 caracteres)
 
@@ -85,6 +85,5 @@ Ver el orden y cómo obtenerlas en [README.md](README.md#capturas).
 
 ## Requisitos del sistema adicionales
 
-Windows 10 versión 2004 o posterior (x64 o ARM64). Para los avisos en pantalla completa, una sesión de Windows App o de otro cliente de Escritorio remoto de Windows.
+Windows 11 (x64 o ARM64). Para los avisos en pantalla completa, una sesión de Windows App (Windows 365 / Cloud PC).
 
-> Revisa este texto si al final subes la versión mínima a Windows 11 (ver el checklist).

@@ -28,10 +28,8 @@ Marca cada casilla al completarla.
 
 - [ ] Pegar esos valores en [`src/ScreenPivot.App/Package.appxmanifest`](../../src/ScreenPivot.App/Package.appxmanifest). Hoy son marcadores: `Name="ScreenPivot"`, `Publisher="CN=ScreenPivotDev"`, `PublisherDisplayName` = ScreenPivot.
 - [ ] Subir la versión a `1.0.0.0` (`Identity Version`). La Store exige que el cuarto número sea `0`, y cada envío posterior necesita una versión mayor.
-- [ ] Decidir la versión mínima de Windows. El manifiesto acepta Windows 10 2004 (`10.0.19041.0`), pero **solo se ha probado en Windows 11**. Hay dos caminos:
-  - probar en un Windows 10 22H2 (detección, overlay, notificaciones y cambio de pantalla);
-  - o subir `MinVersion` a `10.0.22000.0` (Windows 11) y ajustar «Requisitos del sistema» en las fichas.
-- [ ] Probar el cliente clásico **Conexión a Escritorio remoto (`mstsc`)** a pantalla completa antes de afirmar «otros clientes de Escritorio remoto» en la ficha. Solo se ha verificado Windows App con Windows 365.
+- [x] Versión mínima: **Windows 11** (`MinVersion 10.0.22000.0`), lo único probado.
+- [x] Las fichas solo prometen **Windows App (Windows 365 / Cloud PC)**. Si se prueba `mstsc` a pantalla completa, se puede añadir «Conexión a Escritorio remoto».
 - [ ] Alojar [privacy-policy.md](privacy-policy.md) en una URL pública y ponerla en `App.PrivacyPolicyUrl` ([App.xaml.cs](../../src/ScreenPivot.App/App.xaml.cs)). Así aparece el enlace en *Ajustes → Privacidad*; mientras esté vacía, el enlace queda oculto.
 - [ ] Compilar los paquetes de Store, uno por arquitectura:
   ```

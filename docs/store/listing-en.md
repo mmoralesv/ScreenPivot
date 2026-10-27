@@ -38,7 +38,7 @@ PRIVATE BY DESIGN
 • Everything happens on your device: no account, no servers, no ads, no telemetry.
 • The history is stored encrypted for your Windows user and deleted automatically (24 hours by default).
 
-Works with Windows App (Windows 365 / Cloud PC) and other Windows Remote Desktop clients. ScreenPivot is an independent app and is not affiliated with Microsoft.
+Works with Windows App (Windows 365 / Cloud PC). ScreenPivot is an independent app and is not affiliated with Microsoft.
 
 The app interface is currently in Spanish.
 
@@ -83,4 +83,4 @@ First release: priority alerts over the remote desktop, taskbar-flash and title-
 
 ## Additional system requirements
 
-Windows 10 version 2004 or later (x64 or ARM64). For full-screen alerts, a Windows App or other Windows Remote Desktop client session.
+Windows 11 (x64 or ARM64). For full-screen alerts, a Windows App (Windows 365 / Cloud PC) session.
