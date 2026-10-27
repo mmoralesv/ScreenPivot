@@ -79,7 +79,7 @@ First release: priority alerts over the remote desktop, taskbar-flash and title-
 
 ## Copyright and trademark info
 
-© 2026 Marcel Morales. Windows, Windows 365, Microsoft Teams and Outlook are trademarks of Microsoft Corporation.
+© 2026 JEMA.Tech. Windows, Windows 365, Microsoft Teams and Outlook are trademarks of Microsoft Corporation.
 
 ## Additional system requirements
 

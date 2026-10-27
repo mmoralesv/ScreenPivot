@@ -8,12 +8,12 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap uap3 uap5 desktop rescap">
 
-  <!-- Name and Publisher are placeholders; Partner Center provides the real values when the app is reserved. -->
-  <Identity Name="ScreenPivot" Publisher="CN=ScreenPivotDev" Version="0.1.0.0" />
+  <!-- From Partner Center → ScreenPivot (Store ID 9P09TKC1PX1Z) → Product identity. Bump Version for every submission. -->
+  <Identity Name="JEMA.Tech.ScreenPivot" Publisher="CN=33A6D027-F324-4DFC-9111-791492CD98F8" Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>ScreenPivot</DisplayName>
-    <PublisherDisplayName>ScreenPivot</PublisherDisplayName>
+    <PublisherDisplayName>JEMA.Tech</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

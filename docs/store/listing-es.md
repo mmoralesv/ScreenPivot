@@ -81,7 +81,7 @@ Ver el orden y cómo obtenerlas en [README.md](README.md#capturas).
 
 ## Copyright y marcas comerciales
 
-© 2026 Marcel Morales. Windows, Windows 365, Microsoft Teams y Outlook son marcas comerciales de Microsoft Corporation.
+© 2026 JEMA.Tech. Windows, Windows 365, Microsoft Teams y Outlook son marcas comerciales de Microsoft Corporation.
 
 ## Requisitos del sistema adicionales
 

@@ -6,7 +6,7 @@ title: Política de privacidad de ScreenPivot / ScreenPivot Privacy Policy
 
 *Última actualización: 26 de octubre de 2026* · *[English below](#screenpivot-privacy-policy)*
 
-ScreenPivot es una aplicación de Windows publicada por **Marcel Morales** («nosotros»). Esta política explica qué información usa la aplicación, para qué y dónde se guarda.
+ScreenPivot es una aplicación de Windows publicada por **JEMA.Tech** (Marcel Morales) («nosotros»). Esta política explica qué información usa la aplicación, para qué y dónde se guarda.
 
 ## Resumen
 
@@ -51,7 +51,7 @@ Si una versión futura cambia cómo se trata la información (por ejemplo, un re
 
 ## Contacto
 
-Marcel Morales · [Soporte (GitHub Issues)](https://github.com/mmoralesv/ScreenPivot/issues) · [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot)
+JEMA.Tech (Marcel Morales) · [Soporte (GitHub Issues)](https://github.com/mmoralesv/ScreenPivot/issues) · [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot)
 
 ---
 
@@ -59,7 +59,7 @@ Marcel Morales · [Soporte (GitHub Issues)](https://github.com/mmoralesv/ScreenP
 
 *Last updated: October 26, 2026*
 
-ScreenPivot is a Windows application published by **Marcel Morales** ("we"). This policy explains what information the app uses, why, and where it is stored.
+ScreenPivot is a Windows application published by **JEMA.Tech** (Marcel Morales) ("we"). This policy explains what information the app uses, why, and where it is stored.
 
 ## Summary
 
@@ -104,4 +104,4 @@ If a future version changes how information is handled (for example, an optional
 
 ## Contact
 
-Marcel Morales · [Support (GitHub Issues)](https://github.com/mmoralesv/ScreenPivot/issues) · [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot)
+JEMA.Tech (Marcel Morales) · [Support (GitHub Issues)](https://github.com/mmoralesv/ScreenPivot/issues) · [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot)

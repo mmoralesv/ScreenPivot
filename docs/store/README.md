@@ -9,7 +9,7 @@
 
 Marca cada casilla al completarla.
 
-**Datos del editor:** Marcel Morales · soporte en [GitHub Issues](https://github.com/mmoralesv/ScreenPivot/issues) · sitio web [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot).
+**Datos del editor:** JEMA.Tech (Marcel Morales) · Store ID `9P09TKC1PX1Z` · identidad `JEMA.Tech.ScreenPivot` · soporte en [GitHub Issues](https://github.com/mmoralesv/ScreenPivot/issues) · sitio web [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot).
 
 **Política de privacidad:** <https://mmoralesv.github.io/ScreenPivot/store/privacy-policy.html> (GitHub Pages desde `/docs`).
 
