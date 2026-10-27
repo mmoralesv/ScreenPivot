@@ -118,13 +118,20 @@ Las leyendas de cada captura están en las fichas. Revisa que no se vea ningún 
 
 - [ ] **Notas para certificación.** Pegar:
 
-  > ScreenPivot shows alerts from local apps while a Remote Desktop (Windows App / Windows 365, or mstsc) session covers the screen in full screen. The interface is available in English and Spanish: it follows the Windows display language, can be forced with "--lang en-US", or chosen in Settings > Language (restart from the same page).
+  > ScreenPivot shows alerts from local apps while a Windows App (Windows 365 / Cloud PC) or Remote Desktop session covers the screen in full screen. The interface is available in English and Spanish: it follows the Windows display language, can be forced with "--lang en-US", or chosen in Settings > Language (restart from the same page). UI names below are the English ones, with the Spanish in parentheses.
   >
-  > Quick test without a remote session: run `screenpivot --demo` from a terminal. It opens the side panel docked to the right edge with fictional sample data, uses a separate data folder and reads no real notifications. The gear icon opens the settings; there, "Test banner in 5 s" ("Probar banner en 5 s") shows the alert banner even without a remote session. The panel hides when another app gets focus or with Esc.
+  > QUICK TEST WITHOUT A REMOTE SESSION
+  > Run "screenpivot --demo" from a terminal (app execution alias). It opens the side panel docked to the right edge with fictional sample data, uses a separate data folder and reads no real notifications. The gear icon opens the settings ("Ajustes"); there, "Test banner in 5 s" ("Probar banner en 5 s") shows the alert banner even without a remote session. The panel hides when another app gets focus or with Esc.
   >
-  > Full test: 1) Launch ScreenPivot; in the panel's settings (gear icon) click "Allow access" ("Permitir acceso") and accept the Windows notification-access prompt. 2) Open any Remote Desktop connection in full screen. A small "ScreenPivot · Go to this PC" pill appears in the bottom-right corner. 3) Trigger a notification on the local machine (e.g. an email, or a message whose text contains "urgente"). A banner appears over the remote session without taking keyboard focus. "Open" brings the source app to the front and "↩ Back to the Cloud PC" returns to the session. Clicking the pill opens the side panel over the session. 4) Leave full screen: the panel opens with the summary of what happened.
+  > FULL TEST
+  > 1) Launch ScreenPivot. In the panel's settings (gear icon) click "Allow access" ("Permitir acceso") and accept the Windows notification-access prompt.
+  > 2) Open a Windows App / Remote Desktop connection in full screen. A small "ScreenPivot · Go to this PC" ("Ir al equipo") pill appears in the bottom-right corner.
+  > 3) Trigger a notification on the local machine (e.g. an email, or a message whose text contains "urgent"). A banner appears over the remote session without taking keyboard focus. "Open" ("Abrir") brings the source app to the front and "↩ Back to the Cloud PC" ("Volver al Cloud PC") returns to the session. Clicking the pill opens the side panel over the session.
+  > 4) Leave full screen: the panel opens with the summary of what happened.
   >
-  > The app runs from the notification area (tray icon). Hiding the panel does not exit; use the tray menu "Exit". All data stays on the device; see the privacy policy.
+  > The app runs from the notification area (tray icon). Hiding the panel does not exit; use the tray menu "Exit" ("Salir"). All data stays on the device; privacy policy: https://mmoralesv.github.io/ScreenPivot/store/privacy-policy.html
+  >
+  > Partner Center keeps the notes in a single box: paste the runFullTrust justification above at the end, under the heading "RESTRICTED CAPABILITY runFullTrust", followed by "The userNotificationListener capability is requested with the standard Windows consent prompt."
 
 - [ ] Enviar y revisar el informe de certificación. Si se rechaza por la política de notificaciones o de privacidad, comprobar que la URL de la política funciona y que la descripción explica claramente que la app lee notificaciones.
 
