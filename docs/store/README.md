@@ -43,7 +43,7 @@ Marca cada casilla al completarla.
   "C:\Program Files (x86)\Windows Kits\10\App Certification Kit\appcert.exe" test -appxpackagepath <ruta\ScreenPivot.App_1.0.0.0_x64.msix> -reportoutputpath %TEMP%\wack-x64.xml
   ```
   Revisar que el informe diga `OVERALL_RESULT="PASS"`.
-- [ ] **Instalar el MSIX en una máquina limpia** (con modo desarrollador y un certificado de prueba, o pidiéndolo a TI) y comprobar lo que no se pudo verificar sin empaquetar:
+- [ ] **Instalar el MSIX en una máquina limpia** con [prueba-paquete-instalado.md](prueba-paquete-instalado.md) (`tools\make-test-package.ps1` firma copias de prueba) (con modo desarrollador y un certificado de prueba, o pidiéndolo a TI) y comprobar lo que no se pudo verificar sin empaquetar:
   - el diálogo de acceso a notificaciones;
   - que llegan al instante (evento `NotificationChanged`);
   - *Iniciar con Windows* (`StartupTask`);
