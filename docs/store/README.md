@@ -7,7 +7,11 @@
 | [listing-en.md](listing-en.md) | Textos de la ficha en inglés (opcional; la interfaz está en español) |
 | `art/BoxArt_*.png` | Logotipo 1:1 de la ficha (2160, 1080 y 300 px), generado por `tools/generate-assets.ps1` |
 
-Marca cada casilla al completarla. Los textos entre corchetes (`[NOMBRE DEL EDITOR]`, `[CORREO DE SOPORTE]`, …) aparecen en la política y en las fichas.
+Marca cada casilla al completarla.
+
+**Datos del editor:** Marcel Morales · soporte en [GitHub Issues](https://github.com/mmoralesv/ScreenPivot/issues) · sitio web [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot).
+
+**Política de privacidad:** <https://mmoralesv.github.io/ScreenPivot/store/privacy-policy.html> (GitHub Pages desde `/docs`).
 
 ---
 

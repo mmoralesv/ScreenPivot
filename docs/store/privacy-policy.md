@@ -1,10 +1,12 @@
+---
+title: Política de privacidad de ScreenPivot / ScreenPivot Privacy Policy
+---
+
 # Política de privacidad de ScreenPivot
 
-*Última actualización: 22 de octubre de 2026*
+*Última actualización: 26 de octubre de 2026* · *[English below](#screenpivot-privacy-policy)*
 
-> **Antes de publicar:** sustituye los textos entre corchetes y aloja esta página en una URL pública y estable (por ejemplo, GitHub Pages o el sitio web del editor). Esa URL se indica en Partner Center y conviene enlazarla también desde *Ajustes → Privacidad* de la app (ver el checklist).
-
-ScreenPivot es una aplicación de Windows publicada por **[NOMBRE DEL EDITOR]** («nosotros»). Esta política explica qué información usa la aplicación, para qué y dónde se guarda.
+ScreenPivot es una aplicación de Windows publicada por **Marcel Morales** («nosotros»). Esta política explica qué información usa la aplicación, para qué y dónde se guarda.
 
 ## Resumen
 
@@ -49,15 +51,15 @@ Si una versión futura cambia cómo se trata la información (por ejemplo, un re
 
 ## Contacto
 
-[NOMBRE DEL EDITOR] · [CORREO DE SOPORTE] · [URL DEL SITIO WEB]
+Marcel Morales · [Soporte (GitHub Issues)](https://github.com/mmoralesv/ScreenPivot/issues) · [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot)
 
 ---
 
 # ScreenPivot Privacy Policy
 
-*Last updated: October 22, 2026*
+*Last updated: October 26, 2026*
 
-ScreenPivot is a Windows application published by **[PUBLISHER NAME]** ("we"). This policy explains what information the app uses, why, and where it is stored.
+ScreenPivot is a Windows application published by **Marcel Morales** ("we"). This policy explains what information the app uses, why, and where it is stored.
 
 ## Summary
 
@@ -102,4 +104,4 @@ If a future version changes how information is handled (for example, an optional
 
 ## Contact
 
-[PUBLISHER NAME] · [SUPPORT EMAIL] · [WEBSITE URL]
+Marcel Morales · [Support (GitHub Issues)](https://github.com/mmoralesv/ScreenPivot/issues) · [github.com/mmoralesv/ScreenPivot](https://github.com/mmoralesv/ScreenPivot)

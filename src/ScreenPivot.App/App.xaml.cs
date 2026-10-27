@@ -10,7 +10,7 @@ public partial class App : Application
     public const string DemoArgument = "--demo";
 
     /// <summary>Public privacy policy (docs/store/privacy-policy.md, hosted). Empty hides the link in Settings.</summary>
-    public const string PrivacyPolicyUrl = "";
+    public const string PrivacyPolicyUrl = "https://mmoralesv.github.io/ScreenPivot/store/privacy-policy.html";
 
     private readonly bool _startedInBackground;
     private readonly bool _demo;
