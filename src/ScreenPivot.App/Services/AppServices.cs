@@ -160,8 +160,12 @@ public sealed class AppServices : IDisposable
 
     public void ShowTestBanner()
     {
-        var sample = new HostEvent("test", "ScreenPivot", "Banner de prueba", "Haz clic para cerrarlo. Debe verse encima del Cloud PC.",
-            DateTimeOffset.Now, EventOrigin.Test) { Priority = Priority.Critical, Reason = "Prueba" };
+        var sample = IsDemo
+            // The demo shows a realistic alert from the sample session (Store screenshots, certification testers).
+            ? new HostEvent("test", "Microsoft Teams", "Laura Gómez te está llamando", "Llamada entrante de Teams",
+                DateTimeOffset.Now, EventOrigin.Test) { Priority = Priority.Critical, Reason = "Regla: Llamadas de Teams" }
+            : new HostEvent("test", "ScreenPivot", "Banner de prueba", "Haz clic para cerrarlo. Debe verse encima del Cloud PC.",
+                DateTimeOffset.Now, EventOrigin.Test) { Priority = Priority.Critical, Reason = "Prueba" };
         _overlay.ShowTest(sample);
     }
 
@@ -210,6 +214,11 @@ public sealed class AppServices : IDisposable
     /// <summary>Replaces the demo history with a fictional finished remote session.</summary>
     private void SeedDemo()
     {
+        if (Settings.VipSenders.Count == 0)
+        {
+            Settings.VipSenders.Add("Laura Gómez"); // fictional, matches DemoData
+            _settingsStore.Save(Settings);
+        }
         Digest.Clear();
         var now = DateTimeOffset.Now;
         var events = DemoData.Session(now).Select(e => e with { ReceivedWhileRemote = true }).ToList();

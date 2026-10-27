@@ -55,6 +55,8 @@ public sealed partial class DigestPage : Page
         IReadOnlyList<HostEvent> events;
         if (Filter.SelectedItem == AllFilter)
             events = _services.Digest.All();
+        else if (_services.IsDemo)
+            events = _services.LastSession; // the sample session, even if a real remote session is open
         else if (hub.RemoteSince is { } since)
             events = _services.Digest.Since(since).Where(x => x.ReceivedWhileRemote).ToList();
         else

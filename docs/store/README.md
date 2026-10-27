@@ -82,6 +82,18 @@ Marca cada casilla al completarla.
 
 ### Capturas
 
+Ya generadas en [`screenshots/`](screenshots/), a 1920×1080: el panel y el banner reales en modo demo, sobre un fondo neutro. Se suben en *Store listings → Screenshots → Desktop* de cada idioma, en este orden:
+
+| Archivo | Leyenda (ES) |
+|---|---|
+| `01-banner.png` | Un banner crítico aparece encima del Cloud PC sin quitarle el foco. «Abrir» te lleva a la app. |
+| `02-resumen.png` | Al volver, el resumen agrupa lo ocurrido por app y por importancia. |
+| `03-prioridades.png` | Elige qué es crítico: remitentes VIP, palabras clave y reglas por app. |
+| `04-apps-sin-notificaciones.png` | Avisos también de apps sin notificaciones: parpadeos y cambios de título. |
+| `05-sonidos.png` | Un sonido para cada prioridad. |
+
+Para regenerarlas a mano:
+
 Usa siempre el **modo demo**, que tiene datos ficticios, va a una carpeta aparte, no lee notificaciones reales y no toca tu historial:
 
 ```
