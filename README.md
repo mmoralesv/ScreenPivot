@@ -70,6 +70,9 @@ Avisa de lo que pasa en las apps del equipo (host) mientras trabajas en un Cloud
 | `tests/ScreenPivot.Core.Tests` | xUnit: cobertura, prioridades, hub, resumen, almacenamiento, emparejado de ventanas, overlay, reglas de título. |
 | `spikes/ScreenPivot.Spikes` | Herramientas de diagnóstico de consola (ver abajo). |
 | `tools/generate-assets.ps1` | Regenera el icono y los logos MSIX. |
+| `tools/build-packages.ps1` | Paquetes MSIX x64 + ARM64 (canal Store con `.msixupload`, o canal Dev). |
+| `tools/make-test-package.ps1` | Firma copias de prueba para instalarlas en otra máquina. |
+| `.github/workflows` | CI, build de prueba desde `develop`, promoción por cherry-pick y release a la Store ([docs/ci-cd.md](docs/ci-cd.md)). |
 
 ## Compilar y ejecutar
 
@@ -96,15 +99,12 @@ La build de desarrollo es **sin empaquetar y autocontenida** (no necesita certif
 ### Paquete para Microsoft Store
 
 ```
-dotnet build src\ScreenPivot.App -c Release -p:Packaged=true -p:Platform=x64
+powershell -ExecutionPolicy Bypass -File toolsuild-packages.ps1 -Channel Store
 ```
 
-Genera `src\ScreenPivot.App\AppPackages\ScreenPivot.App_<versión>_x64_Test\*.msix` sin firmar (la Store firma al publicar). Antes de enviar:
-- Sustituir `Identity Name/Publisher` y `PublisherDisplayName` de `Package.appxmanifest` por los de la reserva en Partner Center.
-- Justificar `runFullTrust` y `userNotificationListener`, y publicar política de privacidad.
-- Pasar Windows App Certification Kit.
+Genera en `artifacts\packages\store` los `.msix` x64 y ARM64 sin firmar (la Store firma al publicar) y el `.msixupload` con los dos, que es lo que se sube a Partner Center. Normalmente no hace falta: el workflow **Release** lo hace al fusionar en `main` y sube el paquete a Partner Center. Ramas, builds de prueba y promoción: [docs/ci-cd.md](docs/ci-cd.md).
 
-Para instalarlo localmente hace falta modo desarrollador o un certificado de confianza (requiere administrador).
+Para instalarlo en otra máquina, `tools\make-test-package.ps1` firma copias con un certificado de prueba (la instalación requiere administrador).
 
 Todo lo necesario para publicar está en [docs/store/](docs/store/README.md): checklist de Partner Center, política de privacidad, textos de la ficha (ES/EN), arte y notas para certificación.
 

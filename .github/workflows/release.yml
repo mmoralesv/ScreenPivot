@@ -1,0 +1,119 @@
+# Production build for every push to main (normally the merge of a promotion PR with approved cherry-picks):
+# Store packages + .msixupload, a GitHub release, and the upload to Partner Center.
+#
+# Partner Center: on a push the package goes into a DRAFT submission (msstore publish --noCommit); review it there and
+# press "Submit to the Store" yourself. Run this workflow by hand with "submit" = true to also send it to
+# certification. The store job is skipped until the PARTNER_CENTER_* secrets exist (see docs/ci-cd.md).
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/workflows/dev-build.yml'
+      - '.github/workflows/promote.yml'
+  workflow_dispatch:
+    inputs:
+      submit:
+        description: 'Enviar a certificación en Partner Center (si no, queda como borrador)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  STORE_PRODUCT_ID: 9P09TKC1PX1Z
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  package:
+    needs: ci
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.build.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build Store packages (x64 + ARM64 + msixupload)
+        id: build
+        shell: powershell
+        run: ./tools/build-packages.ps1 -Channel Store -Build ${{ github.run_number }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ScreenPivot-Store-${{ steps.build.outputs.version }}
+          path: artifacts/packages/store
+          retention-days: 90
+
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.build.outputs.version }}
+        shell: pwsh
+        run: |
+          gh release create "v$env:VERSION" "artifacts/packages/store/ScreenPivot_$env:VERSION.msixupload" `
+            --target $env:GITHUB_SHA --title "ScreenPivot $env:VERSION" --generate-notes
+
+  store:
+    needs: package
+    runs-on: windows-latest
+    # Add required reviewers to this environment (Settings → Environments) to approve each upload by hand.
+    environment: microsoft-store
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ScreenPivot-Store-${{ needs.package.outputs.version }}
+          path: store
+
+      - name: Check Partner Center credentials
+        id: creds
+        env:
+          TENANT: ${{ secrets.PARTNER_CENTER_TENANT_ID }}
+        shell: pwsh
+        run: |
+          $ok = [bool]$env:TENANT
+          if (-not $ok) { Write-Host '::warning::Faltan los secretos PARTNER_CENTER_*; no se sube nada a Partner Center (ver docs/ci-cd.md).' }
+          "ok=$($ok.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+
+      - name: Setup Microsoft Store Developer CLI
+        if: steps.creds.outputs.ok == 'true'
+        uses: microsoft/microsoft-store-apppublisher@v1.1
+
+      - name: Configure Microsoft Store Developer CLI
+        if: steps.creds.outputs.ok == 'true'
+        shell: pwsh
+        run: >
+          msstore reconfigure
+          --tenantId "${{ secrets.PARTNER_CENTER_TENANT_ID }}"
+          --sellerId "${{ secrets.PARTNER_CENTER_SELLER_ID }}"
+          --clientId "${{ secrets.PARTNER_CENTER_CLIENT_ID }}"
+          --clientSecret "${{ secrets.PARTNER_CENTER_CLIENT_SECRET }}"
+
+      - name: Upload to Partner Center
+        if: steps.creds.outputs.ok == 'true'
+        env:
+          VERSION: ${{ needs.package.outputs.version }}
+          SUBMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.submit }}
+        shell: pwsh
+        run: |
+          $upload = (Resolve-Path "store/ScreenPivot_$env:VERSION.msixupload").Path
+          $cmd = @('publish', (Split-Path $upload), '--inputFile', $upload, '--appId', $env:STORE_PRODUCT_ID)
+          if ($env:SUBMIT -ne 'true') { $cmd += '--noCommit' }
+          msstore @cmd
+          if ($LASTEXITCODE -ne 0) { throw "msstore publish falló ($LASTEXITCODE)" }
+          msstore submission status $env:STORE_PRODUCT_ID
+          $what = if ($env:SUBMIT -eq 'true') { 'enviado a certificación' } else { 'subido como borrador (revísalo y envíalo en Partner Center)' }
+          "### Partner Center`n$env:VERSION $what" >> $env:GITHUB_STEP_SUMMARY

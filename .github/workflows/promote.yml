@@ -1,0 +1,101 @@
+# Promotes approved work from develop to main: cherry-picks the given PRs/commits onto a new branch cut from main,
+# builds and tests it, and opens a PR to main. Merging that PR runs the Release workflow.
+#
+# Input: PR numbers (#12) or commit SHAs, separated by spaces or commas, oldest first. A PR stands for its merge
+# commit in develop (squash merges give one commit per feature; true merge commits are picked with -m 1).
+name: Promote to main
+
+on:
+  workflow_dispatch:
+    inputs:
+      changes:
+        description: 'PRs (#12) o commits de develop a promover, en orden'
+        required: true
+      title:
+        description: 'Título del PR (opcional)'
+        required: false
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  promote:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cherry-pick
+        id: pick
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHANGES: ${{ inputs.changes }}
+        shell: pwsh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin develop
+
+          $branch = "promote/$env:GITHUB_RUN_NUMBER"
+          git switch -c $branch
+          $picked = @()
+          foreach ($item in ($env:CHANGES -split '[\s,]+' | Where-Object { $_ })) {
+            if ($item -match '^#?(\d+)$') {
+              $pr = gh pr view $Matches[1] --json number,title,state,baseRefName,mergeCommit | ConvertFrom-Json
+              if ($pr.state -ne 'MERGED' -or $pr.baseRefName -ne 'develop') { throw "El PR #$($pr.number) no está fusionado en develop." }
+              $sha = $pr.mergeCommit.oid
+              $label = "#$($pr.number) $($pr.title)"
+            } else {
+              $sha = git rev-parse --verify "$item^{commit}"
+              if ($LASTEXITCODE -ne 0) { throw "No existe el commit $item." }
+              git merge-base --is-ancestor $sha origin/develop
+              if ($LASTEXITCODE -ne 0) { throw "El commit $item no está en develop." }
+              $label = git log -1 --format='%h %s' $sha
+            }
+            $parents = (git rev-list --parents -n 1 $sha).Split(' ').Count - 1
+            $mainline = if ($parents -gt 1) { @('-m', '1') } else { @() }
+            # GITHUB_TOKEN may not push changes to workflow files; those are promoted by hand.
+            $workflows = if ($parents -gt 1) { git diff --name-only "$sha^1" $sha -- .github/workflows } else { git diff-tree --no-commit-id --name-only -r $sha -- .github/workflows }
+            if ($workflows) { throw "$label cambia .github/workflows; promuévelo a mano (ver docs/ci-cd.md)." }
+            git cherry-pick -x @mainline $sha
+            if ($LASTEXITCODE -ne 0) {
+              git cherry-pick --abort
+              throw "Conflicto al aplicar $label. Promuévelo a mano (ver docs/ci-cd.md) o incluye antes los cambios de los que depende."
+            }
+            $picked += "- $label"
+          }
+          if (-not $picked) { throw 'No hay nada que promover.' }
+          "branch=$branch" >> $env:GITHUB_OUTPUT
+          $picked -join "`n" | Set-Content -Encoding utf8 picked.md
+
+      - name: Build and test
+        run: |
+          dotnet build ScreenPivot.sln -c Release -nologo
+          dotnet test tests/ScreenPivot.Core.Tests -c Release --no-build -nologo
+
+      - name: Open PR to main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.pick.outputs.branch }}
+          TITLE: ${{ inputs.title }}
+        shell: pwsh
+        run: |
+          git push origin $env:BRANCH
+          $title = if ($env:TITLE) { $env:TITLE } else { "Promover a main ($env:BRANCH)" }
+          $body = @"
+          Cambios aprobados en ``develop`` (cherry-pick ``-x``):
+
+          $(Get-Content -Raw picked.md)
+          Compilado y con tests en verde en la ejecución $env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID.
+          Al fusionar (con **merge commit**, para conservar cada cherry-pick) se ejecuta **Release**: build de producción y subida a Partner Center.
+          "@
+          gh pr create --base main --head $env:BRANCH --title $title --body $body
+          gh workflow run ci.yml --ref $env:BRANCH
