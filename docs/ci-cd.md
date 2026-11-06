@@ -95,6 +95,7 @@ Release se salta la subida (con un aviso) mientras falten estos secretos; el res
 
 - **Solo paquetes.** Ficha, capturas y notas para certificación se copian del último envío publicado; si cambian, se editan en Partner Center antes de enviar.
 - **Un envío a la vez.** Si hay uno en certificación, la subida falla hasta que termine. `msstore publish` borra el borrador pendiente y crea uno nuevo desde el último publicado, así que no prepares cambios de ficha en un borrador antes de que corra Release.
+- **Precio por mercado.** `msstore publish` conserva el precio del último envío publicado, incluidas las excepciones por mercado; el workflow no usa `--priceId` porque puede perderlas. Antes de enviar el borrador, revisa *Pricing and availability* (precio base y grupo *Free*). Si la CLI se detiene por el precio, sube ese envío a mano desde Partner Center.
 - **Versión creciente.** Cada subida necesita una versión mayor que la publicada; el número de ejecución lo garantiza mientras no se baje `<mayor>.<menor>`.
 
 ## Local

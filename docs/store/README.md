@@ -69,7 +69,9 @@ Marca cada casilla al completarla.
 
 ## 5. Precio y disponibilidad
 
-- [ ] Precio (por ejemplo, gratis) y mercados.
+- [x] **Precio por mercado, sin prueba gratis:** un precio base de pago y una excepción *Free* para el grupo de mercados donde la app es gratis (*Pricing → Override base price*). La app no necesita código de licencia.
+- [ ] **Perfil de pagos y fiscal** (*Account settings → Payout and tax*) completo y verificado: es obligatorio en cuanto hay un mercado de pago.
+- [ ] El primer envío (1.0.0.0) se hizo gratis en todos los mercados; el precio por mercado entra con el siguiente envío. Quien la instaló gratis la conserva.
 - [ ] Visibilidad: conviene un primer envío **oculto** (solo con enlace directo o a usuarios concretos) para probar la instalación desde la Store antes de hacerla pública.
 
 ## 6. Ficha de Store
