@@ -15,6 +15,15 @@ internal struct UIRECT
 }
 
 [StructLayout(LayoutKind.Sequential)]
+internal struct TRACKMOUSEEVENT
+{
+    public int cbSize;
+    public uint dwFlags;
+    public IntPtr hwndTrack;
+    public uint dwHoverTime;
+}
+
+[StructLayout(LayoutKind.Sequential)]
 internal struct PAINTSTRUCT
 {
     public IntPtr hdc;
@@ -82,7 +91,11 @@ internal static class NativeUi
     public const uint WM_SETCURSOR = 0x0020;
     public const uint WM_MOUSEACTIVATE = 0x0021;
     public const uint WM_COMMAND = 0x0111;
+    public const uint WM_MOUSEMOVE = 0x0200;
     public const uint WM_LBUTTONUP = 0x0202;
+    public const uint WM_MOUSEHOVER = 0x02A1;
+    public const uint WM_MOUSELEAVE = 0x02A3;
+    public const uint TME_HOVER = 0x1, TME_LEAVE = 0x2;
     public const uint WM_RBUTTONUP = 0x0205;
     public const uint WM_APP = 0x8000;
     public const int MA_NOACTIVATE = 3;
@@ -159,6 +172,10 @@ internal static class NativeUi
     public static extern IntPtr CreateFont(int height, int width, int escapement, int orientation, int weight, uint italic, uint underline, uint strikeOut,
         uint charSet, uint outPrecision, uint clipPrecision, uint quality, uint pitchAndFamily, string face);
 
+    [DllImport("user32.dll")] public static extern bool TrackMouseEvent(ref TRACKMOUSEEVENT tme);
+    [DllImport("user32.dll")] public static extern IntPtr GetDC(IntPtr hwnd);
+    [DllImport("user32.dll")] public static extern int ReleaseDC(IntPtr hwnd, IntPtr hdc);
+    [DllImport("gdi32.dll", CharSet = CharSet.Unicode)] public static extern bool GetTextExtentPoint32(IntPtr hdc, string text, int len, out POINT size);
     [DllImport("shcore.dll")] public static extern int GetDpiForMonitor(IntPtr monitor, int type, out uint dpiX, out uint dpiY);
     [DllImport("shell32.dll", CharSet = CharSet.Unicode)] public static extern bool Shell_NotifyIcon(uint message, ref NOTIFYICONDATA data);
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)] public static extern IntPtr GetModuleHandle(string? name);

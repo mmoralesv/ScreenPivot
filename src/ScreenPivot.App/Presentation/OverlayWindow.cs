@@ -15,6 +15,14 @@ internal enum OverlayMode
     Banner,
 }
 
+/// <summary>
+/// What a pill shows. At rest only <see cref="Glyph"/> and <see cref="Short"/>: a small tab that leaves the
+/// taskbar's tray and its hidden-icons flyout clickable. After the mouse rests on it, <see cref="Full"/>.
+/// </summary>
+/// <param name="Glyph">Segoe Fluent Icons code point.</param>
+/// <param name="Short">Optional short text next to the glyph, e.g. the pending count.</param>
+internal readonly record struct PillContent(string Glyph, string Short, string Full);
+
 /// <param name="Close">The click landed on the banner's ✕ zone.</param>
 internal readonly record struct OverlayClick(OverlayMode Mode, bool Close);
 
@@ -26,7 +34,8 @@ internal readonly record struct OverlayClick(OverlayMode Mode, bool Close);
 internal sealed class OverlayWindow : IDisposable
 {
     private const string ClassName = "ScreenPivotOverlay";
-    private const int PillHeight = 36;
+    private const int PillHeight = 28, MaxPillWidth = 440, GlyphGap = 6;
+    private const uint HoverMs = 400; // passing over the tab on the way to the tray must not expand it
     private const int BannerWidth = 500, BannerHeight = 76;
     private const int OpenZone = 76, CloseZone = 44;
     private const int SideMargin = 16, TopMargin = 16, BottomMargin = 64; // bottom clears the remote taskbar
@@ -40,10 +49,14 @@ internal sealed class OverlayWindow : IDisposable
     private readonly WndProc _wndProc;
     private readonly IntPtr _hwnd;
     private readonly IntPtr _backgroundBrush, _dividerBrush;
-    private IntPtr _titleFont, _bodyFont;
+    private IntPtr _titleFont, _bodyFont, _iconFont;
     private double _scale;
     private string _line1 = "", _line2 = "";
     private Priority _accent = Priority.Normal;
+    private PillContent _pill;
+    private bool _expanded, _tracking;
+    private Rect _monitor;
+    private OverlayCorner _corner;
 
     public OverlayWindow()
     {
@@ -70,12 +83,15 @@ internal sealed class OverlayWindow : IDisposable
 
     public OverlayMode Mode { get; private set; }
 
-    public void ShowPill(string text, Priority accent, int baseWidth, Rect monitor, OverlayCorner corner)
+    public void ShowPill(PillContent content, Priority accent, Rect monitor, OverlayCorner corner)
     {
-        _line1 = text;
-        _line2 = "";
+        _pill = content;
         _accent = accent;
-        Show(OverlayMode.Pill, baseWidth, PillHeight, monitor, corner);
+        _monitor = monitor;
+        _corner = corner;
+        if (Mode != OverlayMode.Pill) _expanded = false;
+        PrepareScale(monitor);
+        Show(OverlayMode.Pill, PillWidth(), Px(PillHeight), monitor, corner);
     }
 
     public void ShowBanner(HostEvent e, Rect monitor, OverlayCorner corner)
@@ -84,12 +100,15 @@ internal sealed class OverlayWindow : IDisposable
         _line2 = FirstLine(e.DisplayBody);
         if (_line2.Length == 0) _line2 = e.Reason;
         _accent = e.Priority;
-        Show(OverlayMode.Banner, BannerWidth, BannerHeight, monitor, corner);
+        _expanded = false;
+        PrepareScale(monitor);
+        Show(OverlayMode.Banner, Px(BannerWidth), Px(BannerHeight), monitor, corner);
     }
 
     public void Hide()
     {
         Mode = OverlayMode.Hidden;
+        _expanded = false;
         NativeUi.ShowWindow(_hwnd, NativeUi.SW_HIDE);
     }
 
@@ -100,17 +119,17 @@ internal sealed class OverlayWindow : IDisposable
         NativeUi.SetWindowPos(_hwnd, NativeUi.HWND_TOPMOST, 0, 0, 0, 0, NativeUi.SWP_NOMOVE | NativeUi.SWP_NOSIZE | NativeUi.SWP_NOACTIVATE);
     }
 
-    private void Show(OverlayMode mode, int baseWidth, int baseHeight, Rect monitor, OverlayCorner corner)
-    {
-        double scale = NativeUi.ScaleAt(monitor.Left + monitor.Width / 2, monitor.Top + monitor.Height / 2);
-        EnsureFonts(scale);
+    private void PrepareScale(Rect monitor) =>
+        EnsureFonts(NativeUi.ScaleAt(monitor.Left + monitor.Width / 2, monitor.Top + monitor.Height / 2));
 
-        int w = (int)(baseWidth * scale), h = (int)(baseHeight * scale);
-        int side = (int)(SideMargin * scale);
+    /// <summary>Places a window of <paramref name="w"/> × <paramref name="h"/> pixels in the corner.</summary>
+    private void Show(OverlayMode mode, int w, int h, Rect monitor, OverlayCorner corner)
+    {
+        int side = Px(SideMargin);
         bool left = corner is OverlayCorner.TopLeft or OverlayCorner.BottomLeft;
         bool top = corner is OverlayCorner.TopLeft or OverlayCorner.TopRight;
         int x = left ? monitor.Left + side : monitor.Right - w - side;
-        int y = top ? monitor.Top + (int)(TopMargin * scale) : monitor.Bottom - h - (int)(BottomMargin * scale);
+        int y = top ? monitor.Top + Px(TopMargin) : monitor.Bottom - h - Px(BottomMargin);
 
         Mode = mode;
         NativeUi.SetWindowPos(_hwnd, NativeUi.HWND_TOPMOST, x, y, w, h, NativeUi.SWP_NOACTIVATE | NativeUi.SWP_SHOWWINDOW);
@@ -122,12 +141,42 @@ internal sealed class OverlayWindow : IDisposable
         if (Math.Abs(scale - _scale) < 0.01) return;
         if (_titleFont != IntPtr.Zero) NativeUi.DeleteObject(_titleFont);
         if (_bodyFont != IntPtr.Zero) NativeUi.DeleteObject(_bodyFont);
+        if (_iconFont != IntPtr.Zero) NativeUi.DeleteObject(_iconFont);
+        _iconFont = NativeUi.CreateFont(-(int)(14 * scale), 0, 0, 0, NativeUi.FW_NORMAL, 0, 0, 0, 1, 0, 0, 5, 0, "Segoe Fluent Icons");
         _titleFont = NativeUi.CreateFont(-(int)(14 * scale), 0, 0, 0, NativeUi.FW_SEMIBOLD, 0, 0, 0, 1, 0, 0, 5, 0, "Segoe UI");
         _bodyFont = NativeUi.CreateFont(-(int)(13 * scale), 0, 0, 0, NativeUi.FW_NORMAL, 0, 0, 0, 1, 0, 0, 5, 0, "Segoe UI");
         _scale = scale;
     }
 
     private int Px(int dip) => (int)(dip * _scale);
+
+    /// <summary>Pixel width of the pill in its current state: as wide as its content, never wider than the cap.</summary>
+    private int PillWidth()
+    {
+        int frame = Px(AccentWidth) + 2 * Px(Padding);
+        if (_expanded) return Math.Min(Px(MaxPillWidth), frame + TextWidth(_pill.Full, _titleFont));
+        int content = TextWidth(_pill.Glyph, _iconFont);
+        if (_pill.Short.Length > 0) content += Px(GlyphGap) + TextWidth(_pill.Short, _titleFont);
+        return frame + content;
+    }
+
+    private int TextWidth(string text, IntPtr font)
+    {
+        if (text.Length == 0) return 0;
+        var hdc = NativeUi.GetDC(_hwnd);
+        var old = NativeUi.SelectObject(hdc, font);
+        NativeUi.GetTextExtentPoint32(hdc, text, text.Length, out var size);
+        NativeUi.SelectObject(hdc, old);
+        NativeUi.ReleaseDC(_hwnd, hdc);
+        return size.X;
+    }
+
+    private void SetExpanded(bool expanded)
+    {
+        if (Mode != OverlayMode.Pill || _expanded == expanded) return;
+        _expanded = expanded;
+        Show(OverlayMode.Pill, PillWidth(), Px(PillHeight), _monitor, _corner);
+    }
 
     private IntPtr WindowProc(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam)
     {
@@ -138,6 +187,26 @@ internal sealed class OverlayWindow : IDisposable
             case NativeUi.WM_SETCURSOR:
                 NativeUi.SetCursor(NativeUi.LoadCursor(IntPtr.Zero, NativeUi.IDC_HAND));
                 return new IntPtr(1);
+            case NativeUi.WM_MOUSEMOVE:
+                if (Mode == OverlayMode.Pill && !_tracking)
+                {
+                    var tme = new TRACKMOUSEEVENT
+                    {
+                        cbSize = System.Runtime.InteropServices.Marshal.SizeOf<TRACKMOUSEEVENT>(),
+                        dwFlags = NativeUi.TME_HOVER | NativeUi.TME_LEAVE,
+                        hwndTrack = hwnd,
+                        dwHoverTime = HoverMs,
+                    };
+                    _tracking = NativeUi.TrackMouseEvent(ref tme);
+                }
+                return IntPtr.Zero;
+            case NativeUi.WM_MOUSEHOVER:
+                SetExpanded(true);
+                return IntPtr.Zero;
+            case NativeUi.WM_MOUSELEAVE:
+                _tracking = false;
+                SetExpanded(false);
+                return IntPtr.Zero;
             case NativeUi.WM_LBUTTONUP:
                 NativeUi.GetClientRect(hwnd, out var rc);
                 int x = (short)NativeUi.LowWord(lParam);
@@ -171,7 +240,21 @@ internal sealed class OverlayWindow : IDisposable
         {
             var text = rc with { Left = bar.Right + pad, Right = rc.Right - pad };
             NativeUi.SetTextColor(hdc, Foreground);
-            NativeUi.DrawText(hdc, _line1, -1, ref text, format);
+            if (_expanded)
+            {
+                NativeUi.DrawText(hdc, _pill.Full, -1, ref text, format);
+            }
+            else
+            {
+                NativeUi.SelectObject(hdc, _iconFont);
+                NativeUi.DrawText(hdc, _pill.Glyph, -1, ref text, format);
+                if (_pill.Short.Length > 0)
+                {
+                    NativeUi.SelectObject(hdc, _titleFont);
+                    var count = text with { Left = text.Left + TextWidth(_pill.Glyph, _iconFont) + Px(GlyphGap) };
+                    NativeUi.DrawText(hdc, _pill.Short, -1, ref count, format);
+                }
+            }
         }
         else
         {
@@ -225,6 +308,7 @@ internal sealed class OverlayWindow : IDisposable
         NativeUi.DeleteObject(_dividerBrush);
         if (_titleFont != IntPtr.Zero) NativeUi.DeleteObject(_titleFont);
         if (_bodyFont != IntPtr.Zero) NativeUi.DeleteObject(_bodyFont);
+        if (_iconFont != IntPtr.Zero) NativeUi.DeleteObject(_iconFont);
         GC.KeepAlive(_wndProc);
     }
 }
