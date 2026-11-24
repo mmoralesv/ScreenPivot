@@ -74,16 +74,32 @@ public static class WindowSwitcher
             if (!Win32.IsWindowVisible(hwnd) || Win32.IsCloaked(hwnd)) return true;
             if (WindowInterop.GetWindow(hwnd, WindowInterop.GW_OWNER) != IntPtr.Zero) return true;
             if ((Win32.GetWindowLongPtr(hwnd, WindowInterop.GWL_EXSTYLE).ToInt64() & WindowInterop.WS_EX_TOOLWINDOW) != 0) return true;
-            var title = Win32.WindowText(hwnd);
-            if (title.Length == 0) return true;
-            Win32.GetWindowThreadProcessId(hwnd, out uint pid);
-            if (pid == ownPid) return true;
-            var process = RemoteSessionDetector.ProcessName(pid);
-            if (RemoteSessionDetector.RemoteProcessNames.Contains(process)) return true;
-            list.Add(new WindowCandidate(hwnd, WindowInterop.WindowAppId(hwnd), WindowInterop.ProcessAppId(pid), process, title));
+            if (Describe(hwnd, ownPid) is { } candidate) list.Add(candidate);
             return true;
         }, IntPtr.Zero);
         return list;
+    }
+
+    /// <summary>
+    /// The app window behind <paramref name="hwnd"/> (a dialog or child resolves to its top-level owner), or null
+    /// for remote-client windows, our own windows and windows without a title.
+    /// </summary>
+    public static WindowCandidate? DescribeTopLevel(IntPtr hwnd)
+    {
+        if (hwnd == IntPtr.Zero) return null;
+        var root = WindowInterop.GetAncestor(hwnd, WindowInterop.GA_ROOTOWNER);
+        return Describe(root == IntPtr.Zero ? hwnd : root, (uint)Environment.ProcessId);
+    }
+
+    private static WindowCandidate? Describe(IntPtr hwnd, uint ownPid)
+    {
+        var title = Win32.WindowText(hwnd);
+        if (title.Length == 0) return null;
+        Win32.GetWindowThreadProcessId(hwnd, out uint pid);
+        if (pid == ownPid) return null;
+        var process = RemoteSessionDetector.ProcessName(pid);
+        if (RemoteSessionDetector.RemoteProcessNames.Contains(process)) return null;
+        return new WindowCandidate(hwnd, WindowInterop.WindowAppId(hwnd), WindowInterop.ProcessAppId(pid), process, title);
     }
 
     /// <summary>

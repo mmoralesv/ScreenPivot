@@ -126,7 +126,8 @@ public sealed class AppServices : IDisposable
         _monitor.Changed += OnCoverageChanged;
         _monitor.ForegroundChanged += (_, _) =>
         {
-            UpdateOverlay();
+            if (MarkForegroundAppSeen()) Refresh();
+            else UpdateOverlay();
             ForegroundChanged?.Invoke(this, EventArgs.Empty);
         };
         _monitor.Start();
@@ -157,6 +158,22 @@ public sealed class AppServices : IDisposable
     {
         Hub.MarkReviewed(DateTimeOffset.Now);
         Refresh();
+    }
+
+    /// <summary>
+    /// The user brought an app to the front by any route (minimizing the session and clicking it, Alt+Tab, the
+    /// banner's "Abrir"): its pending alerts were seen there and leave the counter. Other apps' alerts stay.
+    /// </summary>
+    /// <returns>True when the pending list changed.</returns>
+    private bool MarkForegroundAppSeen()
+    {
+        var window = WindowSwitcher.DescribeTopLevel(Win32.GetForegroundWindow());
+        if (window is null) return false;
+        var seen = Hub.Pending().Where(e => AppWindowMatcher.BelongsTo(e, window)).ToList();
+        if (seen.Count == 0) return false;
+        int count = Hub.MarkSeen(seen);
+        DiagnosticsLog.Write($"seen {count} pending in foreground app='{window.ProcessName}'");
+        return count > 0;
     }
 
     /// <summary>Shows a sample banner after <paramref name="delay"/> (time to switch to the Cloud PC).</summary>

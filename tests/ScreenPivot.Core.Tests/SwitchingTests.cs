@@ -1,3 +1,4 @@
+using ScreenPivot.Core.Model;
 using ScreenPivot.Core.Overlay;
 using ScreenPivot.Core.Switching;
 using Xunit;
@@ -32,6 +33,18 @@ public class AppWindowMatcherTests
     public void ExePathIdMatchesProcess() =>
         Assert.Equal(AppWindowMatcher.Heuristic,
             AppWindowMatcher.Score(W(1, "Consola", "powershell"), @"{1AC14E77}\WindowsPowerShell\v1.0\powershell.exe", "Windows PowerShell"));
+
+    [Fact]
+    public void EventBelongsToItsSourceWindowOrApp()
+    {
+        var flash = new HostEvent("1", "Build", "", "", DateTimeOffset.Now, EventOrigin.WindowFlash) { WindowHandle = 7 };
+        Assert.True(AppWindowMatcher.BelongsTo(flash, W(7, "Compilación")));
+        Assert.False(AppWindowMatcher.BelongsTo(flash, W(8, "Otra ventana")));
+
+        var toast = new HostEvent("2", "WhatsApp", "Ana", "Hola", DateTimeOffset.Now, EventOrigin.Toast) { AppId = "5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App" };
+        Assert.True(AppWindowMatcher.BelongsTo(toast, W(9, "WhatsApp", "WhatsApp.Root", windowId: "5319275A.WhatsAppDesktop_cv1g1gvanyjgm!App")));
+        Assert.False(AppWindowMatcher.BelongsTo(toast, W(10, "Bandeja de entrada - Outlook", "olk")));
+    }
 
     [Fact]
     public void TitleFallbackUsesDisplayName() =>
