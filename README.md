@@ -23,6 +23,8 @@ Avisa de lo que pasa en las apps del equipo (host) mientras trabajas en un Cloud
    - Crítico: banner fijo.
    - Alto: banner unos segundos.
    - Cualquier pendiente: contador.
+   - **Píldora compacta:** el contador, *Ir al equipo* y *Volver al Cloud PC* se muestran como una pestaña pequeña (icono y número) para no tapar la bandeja ni los iconos ocultos de la barra de tareas. Al dejar el ratón encima 0,4 s se despliega con el texto completo; el clic funciona en los dos estados.
+   - **Avisos vistos:** si llevas al frente una app por tu cuenta (minimizando el Cloud PC, Alt+Tab o *Abrir*), sus avisos pendientes salen del contador. Se usa el mismo emparejado que *Abrir* (`AppWindowMatcher.BelongsTo`); los de otras apps siguen pendientes.
    - **Sonidos por prioridad** (`PrioritySounds`, `SoundPlayer`):
      - Cada prioridad elige un sonido del esquema de Windows (Notificación, Mensaje instantáneo, Correo nuevo, Recordatorio, SMS, Asterisco, Exclamación, Error crítico), un archivo WAV propio o ninguno.
      - Ajustes tiene un botón *Probar* por fila.

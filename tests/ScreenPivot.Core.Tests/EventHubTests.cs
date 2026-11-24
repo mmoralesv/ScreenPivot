@@ -73,6 +73,28 @@ public class EventHubTests
     }
 
     [Fact]
+    public void SeenEventsLeavePendingAndOthersStay()
+    {
+        _hub.EnterRemote(T0);
+        var whatsApp1 = _hub.Ingest(Event("WhatsApp", "Ana", T0.AddMinutes(1)))!;
+        var whatsApp2 = _hub.Ingest(Event("WhatsApp", "Luis", T0.AddMinutes(2)))!;
+        _hub.Ingest(Event("Outlook", "Informe", T0.AddMinutes(3)));
+
+        Assert.Equal(2, _hub.MarkSeen(new[] { whatsApp1, whatsApp2 }));
+        Assert.Equal("Outlook", Assert.Single(_hub.Pending()).App);
+        Assert.Equal(0, _hub.MarkSeen(new[] { whatsApp1 })); // already seen
+    }
+
+    [Fact]
+    public void NewEventsFromASeenAppArePendingAgain()
+    {
+        _hub.EnterRemote(T0);
+        _hub.MarkSeen(new[] { _hub.Ingest(Event("WhatsApp", "Ana", T0.AddMinutes(1)))! });
+        _hub.Ingest(Event("WhatsApp", "Ana otra vez", T0.AddMinutes(5)));
+        Assert.Equal("Ana otra vez", Assert.Single(_hub.Pending()).Title);
+    }
+
+    [Fact]
     public void PausedEventsAreNotPending()
     {
         _settings.Paused = true;

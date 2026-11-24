@@ -19,6 +19,8 @@ public sealed class EventHub
     private readonly Dictionary<string, DateTimeOffset> _recent = new();
     private DateTimeOffset? _remoteSince;
     private DateTimeOffset _reviewedUntil = DateTimeOffset.MinValue;
+    /// <summary>Pending events the user already looked at in their app (see <see cref="MarkSeen"/>).</summary>
+    private readonly HashSet<string> _seen = new();
 
     public EventHub(Func<AppSettings> settings, DigestStore store)
     {
@@ -59,14 +61,37 @@ public sealed class EventHub
     /// <summary>Events received while remote that the user has not reviewed yet (drives the ticker).</summary>
     public IReadOnlyList<HostEvent> Pending()
     {
-        DateTimeOffset since;
-        lock (_gate) since = _reviewedUntil;
-        return _store.Since(since).Where(e => e.ReceivedWhileRemote && e.Timestamp > since).ToList();
+        lock (_gate)
+        {
+            var since = _reviewedUntil;
+            return _store.Since(since).Where(e => e.ReceivedWhileRemote && e.Timestamp > since && !_seen.Contains(e.Id)).ToList();
+        }
     }
 
+    /// <summary>Everything up to <paramref name="now"/> was reviewed (the panel shows it).</summary>
     public void MarkReviewed(DateTimeOffset now)
     {
-        lock (_gate) _reviewedUntil = now;
+        lock (_gate)
+        {
+            _reviewedUntil = now;
+            _seen.Clear(); // all of them are older than now
+        }
+    }
+
+    /// <summary>
+    /// The user opened the apps of these pending events on their own (not through ScreenPivot), so they are no
+    /// longer pending. Events from other apps stay pending.
+    /// </summary>
+    /// <returns>How many were still pending.</returns>
+    public int MarkSeen(IEnumerable<HostEvent> events)
+    {
+        lock (_gate)
+        {
+            int count = 0;
+            foreach (var e in events)
+                if (e.Timestamp > _reviewedUntil && _seen.Add(e.Id)) count++;
+            return count;
+        }
     }
 
     /// <returns>The accepted event, or null when it was ignored, paused or a duplicate.</returns>
