@@ -16,7 +16,6 @@ on:
         required: false
 
 permissions:
-  actions: write
   contents: write
   pull-requests: write
 
@@ -95,7 +94,8 @@ jobs:
 
           $(Get-Content -Raw picked.md)
           Compilado y con tests en verde en la ejecución $env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID.
+          **Antes de fusionar:** pulsa **Approve and run** en este PR (o ``gh run rerun`` de la ejecución de CI en espera). Como el PR lo abrió el bot de Actions, GitHub deja su CI esperando aprobación, y el check ``build-test`` es obligatorio en ``main``.
           Al fusionar (con **merge commit**, para conservar cada cherry-pick) se ejecuta **Release**: build de producción y subida a Partner Center.
           "@
           gh pr create --base main --head $env:BRANCH --title $title --body $body
-          gh workflow run ci.yml --ref $env:BRANCH
+          "### PR abierto`nEn el PR, pulsa **Approve and run** para que corra CI (check obligatorio de main)." >> $env:GITHUB_STEP_SUMMARY
