@@ -45,7 +45,7 @@ Dev y Store tienen contadores independientes y no chocan: **ScreenPivot Dev** es
    ```
    `Uninstall-ScreenPivotTest.ps1` la quita junto con su certificado.
 4. **Promover lo aprobado**: *Actions → Promote to main → Run workflow*, con los PR en orden, p. ej. `#12 #15`. Si hay conflicto, el workflow falla y dice cuál; normalmente falta promover antes otro PR del que depende.
-5. **Fusionar el PR `promote/N`** con *Create a merge commit*. Release genera la versión de producción y la sube a Partner Center como **borrador**.
+5. **Aprobar el CI del PR `promote/N`** (*Approve and run*) y **fusionarlo** con *Create a merge commit*. Release genera la versión de producción y la sube a Partner Center como **borrador**.
 6. **Enviar a certificación**: revisar el borrador en Partner Center y pulsar *Submit to the Store*, o ejecutar *Release* a mano con **submit** marcado (vuelve a compilar con un número nuevo y lo envía).
 
 ### Promoción a mano (conflictos o cambios en `.github/workflows`)
@@ -72,7 +72,7 @@ Un commit de merge (no squash) se aplica con `git cherry-pick -x -m 1 <sha>`.
   - **develop**: sin push directo ni borrado; PR obligatorio con el check **build-test** en verde; solo *Squash merge*.
   - **main**: igual, pero solo *Merge commit*, para conservar cada cherry-pick.
   - En los dos, los administradores pueden saltarse las reglas **solo dentro de un PR** (por ejemplo, para fusionar si CI está caído).
-  - El PR que abre *Promote to main* no lanza CI por sí solo (los PR creados con el token de Actions no disparan workflows); por eso el workflow ejecuta CI en la rama `promote/N` después de abrirlo.
+  - El PR que abre *Promote to main* lo crea el bot de Actions, así que GitHub deja su CI **esperando aprobación**. En el PR, pulsa **Approve and run** (o `gh run rerun <id>`) antes de fusionar. Lanzar CI a mano en la rama no sirve: ese check no cuenta para el PR.
 - [ ] *Settings → Environments → microsoft-store* (se crea en la primera ejecución de Release): añadir **Required reviewers** si quieres aprobar cada subida a Partner Center.
 
 ### En Partner Center (para la subida automática)
