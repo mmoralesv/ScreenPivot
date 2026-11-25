@@ -10,6 +10,30 @@ public sealed class StorageTests : IDisposable
     private readonly string _dir = Path.Combine(Path.GetTempPath(), "ScreenPivotTests", Guid.NewGuid().ToString("N"));
 
     [Fact]
+    public void ImportLegacyCopiesSettingsAndHistoryOnce()
+    {
+        var legacy = Path.Combine(_dir, "legacy");
+        var package = Path.Combine(_dir, "package");
+        new SettingsStore(legacy).Save(new AppSettings { VipSenders = { "Ana" } });
+        File.WriteAllText(Path.Combine(legacy, "digest.bin"), "x");
+        File.WriteAllText(Path.Combine(legacy, "diagnostics.log"), "log");
+
+        Assert.True(SettingsStore.ImportLegacy(legacy, package));
+        Assert.Equal(new[] { "Ana" }, new SettingsStore(package).Load().VipSenders);
+        Assert.True(File.Exists(Path.Combine(package, "digest.bin")));
+        Assert.False(File.Exists(Path.Combine(package, "diagnostics.log")));
+
+        // Later runs keep the package's own settings.
+        new SettingsStore(package).Save(new AppSettings { VipSenders = { "Luis" } });
+        Assert.False(SettingsStore.ImportLegacy(legacy, package));
+        Assert.Equal(new[] { "Luis" }, new SettingsStore(package).Load().VipSenders);
+    }
+
+    [Fact]
+    public void ImportLegacyWithoutOldSettingsDoesNothing() =>
+        Assert.False(SettingsStore.ImportLegacy(Path.Combine(_dir, "none"), Path.Combine(_dir, "package")));
+
+    [Fact]
     public void SettingsRoundTrip()
     {
         var store = new SettingsStore(_dir);
