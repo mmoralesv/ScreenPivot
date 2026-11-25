@@ -20,9 +20,55 @@ public sealed class SettingsStore
         _path = Path.Combine(directory, "settings.json");
     }
 
-    /// <summary>%LOCALAPPDATA%\ScreenPivot; MSIX redirects it to the package's private LocalCache.</summary>
-    public static string DefaultDirectory =>
+    private static string? _defaultDirectory;
+
+    /// <summary>
+    /// Unpackaged: %LOCALAPPDATA%\ScreenPivot. Packaged: the package's own LocalState, so the Store app and
+    /// ScreenPivot Dev keep separate settings and history (MSIX gives every package the same virtualized view of
+    /// %LOCALAPPDATA%\ScreenPivot once that folder exists). The first packaged run imports the old files from there.
+    /// </summary>
+    public static string DefaultDirectory => _defaultDirectory ??= ResolveDefaultDirectory();
+
+    private static string LegacyDirectory =>
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScreenPivot");
+
+    private static string ResolveDefaultDirectory()
+    {
+        string packageFolder;
+        try
+        {
+            packageFolder = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+        }
+        catch (Exception e) when (e is InvalidOperationException or System.Runtime.InteropServices.COMException)
+        {
+            return LegacyDirectory; // no package identity
+        }
+        ImportLegacy(LegacyDirectory, packageFolder);
+        return packageFolder;
+    }
+
+    /// <summary>
+    /// Copies settings and history from <paramref name="from"/> when <paramref name="to"/> has no settings yet.
+    /// The log stays behind. Never overwrites.
+    /// </summary>
+    /// <returns>True when settings were imported.</returns>
+    internal static bool ImportLegacy(string from, string to)
+    {
+        var settings = Path.Combine(from, "settings.json");
+        if (File.Exists(Path.Combine(to, "settings.json")) || !File.Exists(settings)) return false;
+        try
+        {
+            Directory.CreateDirectory(to);
+            File.Copy(settings, Path.Combine(to, "settings.json"));
+            var digest = Path.Combine(from, "digest.bin");
+            if (File.Exists(digest)) File.Copy(digest, Path.Combine(to, "digest.bin"), overwrite: false);
+            return true;
+        }
+        catch (IOException)
+        {
+            return false; // e.g. both packages starting at once; defaults are fine
+        }
+    }
 
     public AppSettings Load()
     {

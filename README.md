@@ -55,7 +55,7 @@ Avisa de lo que pasa en las apps del equipo (host) mientras trabajas en un Cloud
      - el **engranaje** cambia a los **Ajustes**, en una sola columna, con *Guardar* fijo al pie.
 7. **Resumen**: al salir del Cloud PC se abre agrupado por app. El historial se guarda cifrado con DPAPI (usuario actual) y caduca según la retención (24 h por defecto). Si fue ScreenPivot quien minimizó la sesión, no se abre.
 8. **Bandeja**: abrir resumen, ajustes, volver al Cloud PC o minimizarlo, pausar, salir. Instancia única.
-9. **Diagnóstico**: `%LOCALAPPDATA%\ScreenPivot\diagnostics.log` registra cambios de modo remoto y decisiones (origen, app, prioridad, motivo). Nunca registra el título ni el texto de las notificaciones.
+9. **Diagnóstico**: `diagnostics.log`, en la carpeta de datos, registra cambios de modo remoto y decisiones (origen, app, prioridad, motivo). Nunca registra el título ni el texto de las notificaciones.
 10. **Idiomas: español e inglés.**
     - **Interfaz:** `src/ScreenPivot.App/Strings/{es-ES,en-US}/Resources.resw`. El XAML usa `x:Uid` y el código, `Loc.Get` / `Loc.Format`.
     - **Core:** `src/ScreenPivot.Core/Resources/Strings{,.en}.resx` con `CoreText`, para resúmenes, motivos, prioridades, reglas y sonidos por defecto.
@@ -86,7 +86,7 @@ dotnet build src\ScreenPivot.App
 src\ScreenPivot.App\bin\x64\Debug\net10.0-windows10.0.26100.0\win-x64\ScreenPivot.exe
 ```
 
-La build de desarrollo es **sin empaquetar y autocontenida** (no necesita certificado ni runtime instalado). Configuración, historial y log: `%LOCALAPPDATA%\ScreenPivot`.
+La build de desarrollo es **sin empaquetar y autocontenida** (no necesita certificado ni runtime instalado). Configuración, historial y log: `%LOCALAPPDATA%\ScreenPivot`. Las versiones instaladas (MSIX) usan la carpeta propia de su paquete, `%LOCALAPPDATA%\Packages\<paquete>\LocalState`, así que la de la Store y ScreenPivot Dev no comparten datos; el primer arranque copia los ajustes y el historial de `%LOCALAPPDATA%\ScreenPivot` si existen.
 
 ### Diagnóstico (`spikes\ScreenPivot.Spikes\bin\Debug\net10.0-windows10.0.26100.0\ScreenPivot.Spikes.exe`)
 
@@ -114,7 +114,7 @@ Todo lo necesario para publicar está en [docs/store/](docs/store/README.md): ch
 
 `ScreenPivot.exe --demo` (o `screenpivot --demo` con la versión empaquetada, gracias al alias de ejecución):
 - abre el Resumen con una sesión remota ficticia;
-- usa la carpeta `%LOCALAPPDATA%\ScreenPivot\demo` y no lee notificaciones ni ventanas reales;
+- usa la subcarpeta `demo` de la carpeta de datos y no lee notificaciones ni ventanas reales;
 - puede convivir con la instancia normal.
 
 Sirve para las capturas de la Store y para los certificadores sin Cloud PC.
