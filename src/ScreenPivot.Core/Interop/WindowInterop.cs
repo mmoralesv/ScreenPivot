@@ -44,6 +44,7 @@ internal static class WindowInterop
     }
 
     public const uint GA_ROOT = 2;
+    public const uint GA_ROOTOWNER = 3;
     public const int HSHELL_REDRAW = 6;
     public const int HSHELL_FLASH = 0x8006;
     public const uint EVENT_OBJECT_NAMECHANGE = 0x800C;

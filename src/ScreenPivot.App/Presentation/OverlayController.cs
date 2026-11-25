@@ -18,6 +18,11 @@ internal sealed class OverlayController : IDisposable
 {
     private static readonly TimeSpan ReassertInterval = TimeSpan.FromSeconds(2);
 
+    // Segoe Fluent Icons for the compact pill: Ringer (bell), TVMonitor, Back.
+    private const string BellGlyph = "", HostGlyph = "", BackGlyph = "";
+
+    private static string Count(int n) => n.ToString(System.Globalization.CultureInfo.CurrentCulture);
+
     private readonly Func<AppSettings> _settings;
     private readonly OverlayWindow _window = new();
     private readonly DispatcherQueueTimer _bannerTimer;
@@ -143,16 +148,19 @@ internal sealed class OverlayController : IDisposable
                 _window.ShowBanner(_banner!, monitor, settings.Corner);
                 break;
             case OverlayView.Ticker:
-                _window.ShowPill($"ScreenPivot · {RulesSummarizer.Ticker(_pending)}", _pending.Max(e => e.Priority), 320, monitor, settings.Corner);
+                _window.ShowPill(new PillContent(BellGlyph, Count(_pending.Count), $"ScreenPivot · {RulesSummarizer.Ticker(_pending)}"),
+                    _pending.Max(e => e.Priority), monitor, settings.Corner);
                 break;
             case OverlayView.QuickAccess:
-                _window.ShowPill(Loc.Get("Overlay_QuickAccess"), Priority.Low, 230, monitor, settings.Corner);
+                _window.ShowPill(new PillContent(HostGlyph, "", Loc.Get("Overlay_QuickAccess")), Priority.Low, monitor, settings.Corner);
                 break;
             case OverlayView.ReturnToRemote:
-                var text = _pending.Count == 0 || settings.Paused
-                    ? Loc.Get("Overlay_Return")
-                    : Loc.Format("Overlay_ReturnWithCount", RulesSummarizer.Ticker(_pending));
-                _window.ShowPill(text, Priority.Normal, _pending.Count == 0 ? 250 : 400, monitor, settings.Corner);
+                bool counted = _pending.Count > 0 && !settings.Paused;
+                var text = counted
+                    ? Loc.Format("Overlay_ReturnWithCount", RulesSummarizer.Ticker(_pending))
+                    : Loc.Get("Overlay_Return");
+                _window.ShowPill(new PillContent(BackGlyph, counted ? Count(_pending.Count) : "", text),
+                    Priority.Normal, monitor, settings.Corner);
                 break;
             default:
                 _window.Hide();

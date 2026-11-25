@@ -1,3 +1,5 @@
+using ScreenPivot.Core.Model;
+
 namespace ScreenPivot.Core.Switching;
 
 /// <summary>A switchable top-level window on the host.</summary>
@@ -46,4 +48,11 @@ public static class AppWindowMatcher
         }
         return best;
     }
+
+    /// <summary>
+    /// Whether <paramref name="w"/> is the window an event came from or a window of its app: being in front of it
+    /// counts as having seen the event. Same rules as "Abrir": exact window, then app ID, then name heuristics.
+    /// </summary>
+    public static bool BelongsTo(HostEvent e, WindowCandidate w) =>
+        (e.WindowHandle != 0 && (IntPtr)e.WindowHandle == w.Hwnd) || Score(w, e.AppId, e.App) > 0;
 }
