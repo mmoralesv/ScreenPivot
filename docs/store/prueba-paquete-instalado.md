@@ -43,7 +43,7 @@ Debe terminar mostrando `JEMA.Tech.ScreenPivot  1.0.0.0`.
 | 7 | Banner, «Abrir», «Volver al Cloud PC», panel lateral, sonidos | Igual que en la versión de desarrollo | |
 | 8 | `Settings → Apps → ScreenPivot → Desinstalar` | Se desinstala; `%LOCALAPPDATA%\Packages\JEMA.Tech.ScreenPivot_*` desaparece | |
 
-Si algo falla, copia `%LOCALAPPDATA%\Packages\JEMA.Tech.ScreenPivot_8msdqy49xre9y\LocalCache\Local\ScreenPivot\diagnostics.log` (no contiene el texto de las notificaciones).
+Si algo falla, copia `%LOCALAPPDATA%\Packages\JEMA.Tech.ScreenPivot_8msdqy49xre9y\LocalState\diagnostics.log` (en ScreenPivot Dev, `JEMA.Tech.ScreenPivot.Dev_8msdqy49xre9y`) (no contiene el texto de las notificaciones).
 
 ## 4. Opcional: Windows App Certification Kit
 
