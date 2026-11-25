@@ -1,6 +1,7 @@
 using ScreenPivot.App.Interop;
 using ScreenPivot.App.Services;
 using ScreenPivot.Core.Detection;
+using ScreenPivot.Core.Diagnostics;
 using ScreenPivot.Core.Model;
 using ScreenPivot.Core.Rules;
 
@@ -53,7 +54,8 @@ internal sealed class OverlayWindow : IDisposable
     private double _scale;
     private string _line1 = "", _line2 = "";
     private Priority _accent = Priority.Normal;
-    private PillContent _pill;
+    // Not default(PillContent): its strings would be null, and Windows can ask for WM_PAINT before the first pill.
+    private PillContent _pill = new("", "", "");
     private bool _expanded, _tracking;
     private Rect _monitor;
     private OverlayCorner _corner;
@@ -222,8 +224,26 @@ internal sealed class OverlayWindow : IDisposable
     private void Paint(IntPtr hwnd)
     {
         var hdc = NativeUi.BeginPaint(hwnd, out var ps);
+        try
+        {
+            Draw(hwnd, hdc);
+        }
+        catch (Exception e)
+        {
+            // An exception leaving a native window procedure ends the whole process; a bad frame must not.
+            DiagnosticsLog.Write($"overlay paint failed mode={Mode}: {e.GetType().Name}");
+        }
+        finally
+        {
+            NativeUi.EndPaint(hwnd, ref ps);
+        }
+    }
+
+    private void Draw(IntPtr hwnd, IntPtr hdc)
+    {
         NativeUi.GetClientRect(hwnd, out var rc);
         NativeUi.FillRect(hdc, ref rc, _backgroundBrush);
+        if (Mode == OverlayMode.Hidden) return;
 
         var accentBrush = NativeUi.CreateSolidBrush(AccentColor(_accent));
         var bar = rc with { Right = rc.Left + Px(AccentWidth) };
@@ -284,7 +304,6 @@ internal sealed class OverlayWindow : IDisposable
         }
 
         NativeUi.SelectObject(hdc, oldFont);
-        NativeUi.EndPaint(hwnd, ref ps);
     }
 
     public static uint AccentColor(Priority p) => p switch
